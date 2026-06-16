@@ -9,8 +9,8 @@
 Deploy, version and serve on-device AI models at enterprise scale — zero data leaves the device.
 
 [![CI](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions/workflows/ci.yml/badge.svg)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions)
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-[![Platform: macOS 14+](https://img.shields.io/badge/Platform-macOS%2014+-silver)](#)
+[![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
+[![Platform: macOS 14+](https://img.shields.io/badge/Platform-macOS%2014+-lightgrey)](#)
 
 </div>
 
