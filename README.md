@@ -6,7 +6,7 @@
 
 **Privacy-first orchestration of Foundation Models for Apple device fleets.**
 
-Deploy, version and serve on-device AI models at enterprise scale — zero data leaves the device.
+Deploy, version and serve on-device AI models at enterprise scale. Zero data leaves the device.
 
 [![CI](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions/workflows/ci.yml/badge.svg)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green)](LICENSE)
@@ -18,7 +18,7 @@ Deploy, version and serve on-device AI models at enterprise scale — zero data 
 
 ## Overview
 
-Private Model Orchestrator (PMO) is an enterprise toolkit for managing Foundation Model deployments across Apple device fleets. All inference happens entirely on-device via Core ML — no telemetry, no cloud egress.
+Private Model Orchestrator (PMO) is an enterprise toolkit for managing Foundation Model deployments across Apple device fleets. All inference happens entirely on-device via Core ML; no telemetry, no cloud egress.
 
 ## Features
 
@@ -57,7 +57,7 @@ cargo test --workspace
 
 - Rust 1.78+
 - macOS 14+ (for Core ML AOT features)
-- Jamf Pro or Apple Business Manager (optional — for MDM integration)
+- Jamf Pro or Apple Business Manager (optional, for MDM integration)
 
 ## Security
 
