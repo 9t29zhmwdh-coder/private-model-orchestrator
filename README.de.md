@@ -6,7 +6,7 @@
 
 **Privacy-first Orchestrierung von Foundation Models für Apple-Geräteflotten.**
 
-KI-Modelle auf Unternehmensebene verteilen, versionieren und bereitstellen — ohne dass Daten das Gerät verlassen.
+KI-Modelle auf Unternehmensebene verteilen, versionieren und bereitstellen. Daten verlassen das Gerät dabei nie.
 
 [![CI](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions/workflows/ci.yml/badge.svg)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions)
 [![Lizenz: MIT](https://img.shields.io/badge/Lizenz-MIT-blue.svg)](LICENSE)
@@ -18,7 +18,7 @@ KI-Modelle auf Unternehmensebene verteilen, versionieren und bereitstellen — o
 
 ## Übersicht
 
-Private Model Orchestrator (PMO) ist ein Enterprise-Toolkit zur Verwaltung von Foundation-Model-Deployments auf Apple-Geräteflotten. Alle Inferenzen laufen vollständig auf dem Gerät via Core ML — keine Telemetrie, kein Cloud-Egress.
+Private Model Orchestrator (PMO) ist ein Enterprise-Toolkit zur Verwaltung von Foundation-Model-Deployments auf Apple-Geräteflotten. Alle Inferenzen laufen vollständig auf dem Gerät via Core ML; keine Telemetrie, kein Cloud-Egress.
 
 ## Funktionen
 
@@ -57,7 +57,7 @@ cargo test --workspace
 
 - Rust 1.78+
 - macOS 14+ (für Core ML AOT-Funktionen)
-- Jamf Pro oder Apple Business Manager (optional — für MDM-Integration)
+- Jamf Pro oder Apple Business Manager (optional, für MDM-Integration)
 
 ## Sicherheit
 
