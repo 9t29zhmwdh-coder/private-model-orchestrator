@@ -1,4 +1,4 @@
-# Privacy Policy — Private Model Orchestrator
+# Privacy Policy : Private Model Orchestrator
 
 ## Summary / Zusammenfassung
 
@@ -8,7 +8,7 @@ PMO verarbeitet alle Daten lokal auf dem Gerät. Keine Daten verlassen den Perim
 
 ---
 
-## What We Collect / Was wir erfassen
+## What I Collect / Was ich erfasse
 
 **Nothing.** PMO does not collect, transmit, or store any personal or organisational data outside the device.
 
@@ -26,7 +26,7 @@ PMO verarbeitet alle Daten lokal auf dem Gerät. Keine Daten verlassen den Perim
 | Quota counters | In-process; reset on schedule |
 | Policy payload | Received via MDM Configuration Profile; parsed in RAM |
 | Profiling output | Local only; never transmitted |
-| Network | No outbound connections — not even `localhost` |
+| Network | No outbound connections : not even `localhost` |
 
 ---
 
