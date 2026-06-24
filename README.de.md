@@ -67,10 +67,4 @@ Siehe [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
-<div align="center">
-
-**RayStudio · Rafael Yilmaz · MIT-Lizenz · 2026**
-
-</div>
-
 **Autor:** [Rafael Yilmaz](https://github.com/9t29zhmwdh-coder) · **Status:** Active · v0.1.0 · **Lizenz:** MIT
