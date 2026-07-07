@@ -12,7 +12,13 @@ Deploy, version and serve on-device AI models at enterprise scale. Zero data lea
 
 </div>
 
+> **How it runs:** PMO is a command-line tool, not a background service or GUI. `pmo-cli` runs once and exits after printing its status; there is no installer, and nothing persists yet (v0.1.0 registries are in-memory, see [ROADMAP.md](ROADMAP.md)).
+
+![Private Model Orchestrator](docs/screenshot.png)
+
 ---
+
+**In practice:** today you get a tested Rust library modeling device fleets, model bundles, quotas and MDM policy hints, plus a CLI that verifies the subsystems initialise correctly. Persistence, interactive subcommands and the Swift/macOS dashboard are on the roadmap, not shipped yet.
 
 ## Overview
 
@@ -41,6 +47,10 @@ cargo run --bin pmo-cli
 # Test
 cargo test --workspace
 ```
+
+## Uninstall / Cleanup
+
+Delete the `target/` build directory. `pmo-cli` does not write any files in v0.1.0 (registries are in-memory), so there is nothing else to clean up.
 
 ## Documentation
 

@@ -12,7 +12,13 @@ KI-Modelle auf Unternehmensebene verteilen, versionieren und bereitstellen. Date
 
 </div>
 
+> **So läuft das:** PMO ist ein Kommandozeilen-Tool, kein Hintergrunddienst und keine GUI. `pmo-cli` läuft einmal durch und beendet sich nach der Status-Ausgabe; es gibt keinen Installer, und aktuell bleibt nichts erhalten (v0.1.0-Register sind In-Memory, siehe [ROADMAP.md](ROADMAP.md)).
+
+![Private Model Orchestrator](docs/screenshot.png)
+
 ---
+
+**In der Praxis:** Aktuell bekommst du eine getestete Rust-Bibliothek zur Modellierung von Geräteflotten, Modellbündeln, Kontingenten und MDM-Policy-Hinweisen, plus eine CLI die prüft, dass alle Subsysteme sauber initialisieren. Persistenz, interaktive Unterbefehle und das Swift-/macOS-Dashboard stehen auf der Roadmap, sind aber noch nicht ausgeliefert.
 
 ## Übersicht
 
@@ -41,6 +47,10 @@ cargo run --bin pmo-cli
 # Tests
 cargo test --workspace
 ```
+
+## Deinstallation / Datenbereinigung
+
+Lösche das `target/` Build-Verzeichnis. `pmo-cli` schreibt in v0.1.0 keine Dateien (Register sind In-Memory), es gibt also sonst nichts zu bereinigen.
 
 ## Dokumentation
 
