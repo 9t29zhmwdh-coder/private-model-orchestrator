@@ -13,5 +13,5 @@ fn main() {
     let _quota   = QuotaEngine::new();
     let _policy  = PolicyEngine::new();
 
-    println!("\nAll subsystems initialised. Run `pmo-cli --help` for available commands.");
+    println!("\nAll subsystems initialised. This is a v0.1.0 bootstrap check; interactive subcommands (device list, model register, quota status) land in v0.2.0, see ROADMAP.md.");
 }
