@@ -35,6 +35,14 @@ Private Model Orchestrator (PMO) is an enterprise toolkit for managing Foundatio
 | **MDM Integration** | Configuration Profile hints for Jamf / Apple Business Manager |
 | **Performance Profiling** | Instrumented stubs ready for Core ML Profiler integration |
 
+## Requirements
+
+- Rust 1.78+
+- macOS 14+ (for Core ML AOT features)
+- Jamf Pro or Apple Business Manager (optional, for MDM integration)
+
+> 🌱 New here? → [Step-by-step guide for beginners](GETTING_STARTED.md)
+
 ## Quickstart
 
 ```bash
@@ -60,12 +68,6 @@ Delete the `target/` build directory. `pmo-cli` does not write any files in v0.1
 - [API Reference](docs/api_reference.md)
 - [Roadmap](ROADMAP.md)
 - [Privacy Policy](PRIVACY.md)
-
-## Requirements
-
-- Rust 1.78+
-- macOS 14+ (for Core ML AOT features)
-- Jamf Pro or Apple Business Manager (optional, for MDM integration)
 
 ## Security
 
