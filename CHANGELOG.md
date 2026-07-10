@@ -5,6 +5,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.1.3] — 2026-07-10
+
+### Changed
+
+- Moved the "New here? -> beginners guide" callout in README.md above the intro (previously only appeared near Requirements)
+
+### Added
+
+- Added the "New here?" beginner guide callout to README.de.md (was missing)
+
 ## [0.1.0] — <EARLIEST_COMMIT_DATE>
 
 ### Added

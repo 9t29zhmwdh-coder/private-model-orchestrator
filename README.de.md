@@ -18,6 +18,10 @@ KI-Modelle auf Unternehmensebene verteilen, versionieren und bereitstellen. Date
 
 ---
 
+> 🌱 Neu hier? → [Schritt-für-Schritt-Anleitung für Einsteiger](GETTING_STARTED.md)
+
+---
+
 **In der Praxis:** Aktuell bekommst du eine getestete Rust-Bibliothek zur Modellierung von Geräteflotten, Modellbündeln, Kontingenten und MDM-Policy-Hinweisen, plus eine CLI die prüft, dass alle Subsysteme sauber initialisieren. Persistenz, interaktive Unterbefehle und das Swift-/macOS-Dashboard stehen auf der Roadmap, sind aber noch nicht ausgeliefert.
 
 ## Übersicht
