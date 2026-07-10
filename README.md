@@ -1,8 +1,10 @@
 <div align="center">
 
-<img src="RayStudio.png" alt="RayStudio" width="80" />
+<img src="RayStudio.png" alt="RayStudio" width="120" />
 
 # Private Model Orchestrator
+
+[🇩🇪 Deutsche Version](README.de.md)
 
 **Privacy-first orchestration of Foundation Models for Apple device fleets.**
 
