@@ -18,6 +18,10 @@ Deploy, version and serve on-device AI models at enterprise scale. Zero data lea
 
 ---
 
+> 🌱 New here? → [Step-by-step guide for beginners](GETTING_STARTED.md)
+
+---
+
 **In practice:** today you get a tested Rust library modeling device fleets, model bundles, quotas and MDM policy hints, plus a CLI that verifies the subsystems initialise correctly. Persistence, interactive subcommands and the Swift/macOS dashboard are on the roadmap, not shipped yet.
 
 ## Overview
@@ -40,8 +44,6 @@ Private Model Orchestrator (PMO) is an enterprise toolkit for managing Foundatio
 - Rust 1.78+
 - macOS 14+ (for Core ML AOT features)
 - Jamf Pro or Apple Business Manager (optional, for MDM integration)
-
-> 🌱 New here? → [Step-by-step guide for beginners](GETTING_STARTED.md)
 
 ## Quickstart
 
