@@ -10,6 +10,8 @@ uniffi::setup_scaffolding!();
 pub mod device;
 #[cfg(feature = "ffi")]
 pub mod ffi;
+#[cfg(all(feature = "ffi", feature = "persistence"))]
+pub mod ffi_storage;
 pub mod model;
 pub mod policy;
 #[cfg(feature = "persistence")]

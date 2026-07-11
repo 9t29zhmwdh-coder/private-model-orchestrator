@@ -5,6 +5,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.1.10] - 2026-07-11
+
+### Added
+
+- Swift Integration Phase 4 (dashboard views): a new `FfiStorage` UniFFI object (`pmo-core/src/ffi_storage.rs`) exposes the SQLite-backed persistence layer to Swift, loading, mutating and saving the device/model/quota registries per call, mirroring the pattern `pmo-cli` already uses.
+- `DeviceRegistry::remove_device` and `DeviceRegistry::set_device_group`: didn't exist yet, needed for the Devices view's add/remove and group assignment.
+- `pmo-macos`'s four dashboard views now read and write real data through `FfiStorage` instead of session-only objects: Devices (list, register, remove, assign to a group), Models (list, register), Quotas (per-device usage bars, set limit, record inference, reset hourly/daily), Policy (load an MDM Configuration Profile via a file picker, display its gating rules).
+- A shared `AppModel` (`@EnvironmentObject`) owns the single `FfiStorage` instance, pointed at a real SQLite file in Application Support, so every view operates on the same database.
+- Verified end to end with `pmo-cli` and `pmo-macos` pointed at the same database file: devices registered via the CLI (a completely independent code path) showed up correctly in the running app, confirmed by screenshot.
+
+### Fixed
+
+- Discovered and worked around a Cargo feature-unification pitfall: building `pmo-cli` (`cargo build --workspace`) and `pmo-macos`'s bindings generator (`cargo build -p pmo-core --features ffi,persistence`) in sequence silently overwrite each other's shared `target/debug/libpmo_core.dylib` with different feature sets, breaking whichever binary was linked against the other's build. Documented in `pmo-macos/scripts/generate-bindings.sh`.
+
 ## [0.1.9] - 2026-07-11
 
 ### Added
