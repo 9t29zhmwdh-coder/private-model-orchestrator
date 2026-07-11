@@ -5,6 +5,18 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.1.8] - 2026-07-11
+
+### Added
+
+- Swift Integration Phase 2 (persistence layer): DeviceRegistry, ModelRegistry and QuotaEngine can now be saved to and loaded from a SQLite database (`rusqlite`, opt-in `persistence` cargo feature). Added `from_parts`/`all_limits`/`all_usage`/`set_usage` accessors needed to rebuild registries from persisted rows.
+- `PolicyWatcher`: hot-reloads an MdmPolicy from a local JSON file on change (via `notify`), so an MDM-pushed Configuration Profile can be picked up without restarting the process.
+- `pmo-cli` now has real subcommands backed by a SQLite database (`--db pmo.db` by default): `device list`/`register`, `model list`/`register`, `quota status`/`set-limit`. Data survives across separate CLI invocations.
+
+### Changed
+
+- README.md/README.de.md: updated the "How it runs" callout and Quickstart to reflect that pmo-cli now persists data and has real subcommands, replacing the outdated "nothing persists yet, in-memory only" wording.
+
 ## [0.1.7] - 2026-07-11
 
 ### Added

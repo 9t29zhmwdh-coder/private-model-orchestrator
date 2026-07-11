@@ -15,7 +15,7 @@ KI-Modelle auf Unternehmensebene verteilen, versionieren und bereitstellen. Date
 [![CI](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions/workflows/ci.yml/badge.svg)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions) ![Apple Silicon](https://img.shields.io/badge/Apple-Silicon-000000?logo=apple&logoColor=white) ![Platform](https://img.shields.io/badge/Platform-macOS-lightgrey?logo=apple&logoColor=black) ![Rust](https://img.shields.io/badge/Rust-CE422B?logo=rust&logoColor=white) ![AI | Claude Code](https://img.shields.io/badge/AI-Claude_Code-black?logo=anthropic&logoColor=white) ![AI | Copilot](https://img.shields.io/badge/AI-Copilot-black?logo=github&logoColor=white) ![AI | Ollama](https://img.shields.io/badge/AI-Ollama-black?logo=ollama&logoColor=white)
 
 
-> **So läuft das:** PMO ist ein Kommandozeilen-Tool, kein Hintergrunddienst und keine GUI. `pmo-cli` läuft einmal durch und beendet sich nach der Status-Ausgabe; es gibt keinen Installer, und aktuell bleibt nichts erhalten (v0.1.0-Register sind In-Memory, siehe [ROADMAP.md](ROADMAP.md)).
+> **So läuft das:** PMO ist ein Kommandozeilen-Tool, kein Hintergrunddienst und keine GUI. `pmo-cli` liest und schreibt eine lokale SQLite-Datenbank (standardmässig `pmo.db`) und beendet sich nach jedem Unterbefehl; es gibt keinen Installer und keinen Hintergrunddienst. Das Swift-/macOS-Dashboard steht auf der Roadmap, ist aber noch nicht ausgeliefert.
 
 ![Private Model Orchestrator](docs/screenshot.png)
 
@@ -25,7 +25,7 @@ KI-Modelle auf Unternehmensebene verteilen, versionieren und bereitstellen. Date
 
 ---
 
-**In der Praxis:** Aktuell bekommst du eine getestete Rust-Bibliothek zur Modellierung von Geräteflotten, Modellbündeln, Kontingenten und MDM-Policy-Hinweisen, plus eine CLI die prüft, dass alle Subsysteme sauber initialisieren. Persistenz, interaktive Unterbefehle und das Swift-/macOS-Dashboard stehen auf der Roadmap, sind aber noch nicht ausgeliefert.
+**In der Praxis:** Aktuell bekommst du eine getestete Rust-Bibliothek zur Modellierung von Geräteflotten, Modellbündeln, Kontingenten und MDM-Policy-Hinweisen, eine SQLite-gestützte Persistenzschicht, eine CLI mit `device`/`model`/`quota`-Unterbefehlen und eine UniFFI-Bridge, bereit für einen künftigen Swift-Consumer. Die SwiftUI-Dashboard-App selbst steht auf der Roadmap, ist aber noch nicht ausgeliefert.
 
 ## Übersicht
 
@@ -48,16 +48,24 @@ Private Model Orchestrator (PMO) ist ein Enterprise-Toolkit zur Verwaltung von F
 # Build
 cargo build --workspace
 
-# CLI ausführen
+# CLI ausführen (zeigt eine Status-Zusammenfassung ohne Unterbefehl)
 cargo run --bin pmo-cli
+
+# Ein Gerät und ein Modellbündel registrieren, dann das Kontingent prüfen
+cargo run --bin pmo-cli -- device register --serial C02XJ1ABCD12 --hardware-model "MacBookPro18,3" --os-version 14.5
+cargo run --bin pmo-cli -- device list
+cargo run --bin pmo-cli -- model register --name mistral-7b --version 0.1.0 --variant ml-model-c --checksum abc123
+cargo run --bin pmo-cli -- quota status --device <geraete-id-aus-der-liste-oben>
 
 # Tests
 cargo test --workspace
 ```
 
+Standardmässig liest und schreibt `pmo-cli` `pmo.db` im aktuellen Verzeichnis; mit `--db <pfad>` kann ein anderer Ort angegeben werden.
+
 ## Deinstallation / Datenbereinigung
 
-Lösche das `target/` Build-Verzeichnis. `pmo-cli` schreibt in v0.1.0 keine Dateien (Register sind In-Memory), es gibt also sonst nichts zu bereinigen.
+Lösche das `target/` Build-Verzeichnis und die SQLite-Datei `pmo.db` (bzw. den Pfad, den du bei `--db` angegeben hast).
 
 ## Dokumentation
 

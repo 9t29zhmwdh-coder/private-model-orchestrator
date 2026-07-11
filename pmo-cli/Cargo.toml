@@ -10,6 +10,8 @@ name = "pmo-cli"
 path = "src/main.rs"
 
 [dependencies]
-pmo-core    = { path = "../pmo-core" }
+pmo-core    = { path = "../pmo-core", features = ["persistence"] }
 serde_json  = { workspace = true }
 tokio       = { workspace = true }
+clap        = { workspace = true }
+uuid        = { workspace = true }

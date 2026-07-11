@@ -22,11 +22,11 @@ backend from day one instead of being a throwaway in-memory demo.
 - [x] Add the `uniffi` crate to `pmo-core`, expose `DeviceRegistry`, `ModelRegistry`, `QuotaEngine` and `PolicyEngine` as UniFFI objects
 - [x] Generate Swift bindings, verify with a minimal Swift test program that real data round-trips from Rust
 
-**Phase 2: Persistence layer**
-- [ ] SQLite backend for device and model registries (`rusqlite`)
-- [ ] Quota persistence across restarts
-- [ ] Policy hot-reload from a local file (watch via `notify`)
-- [ ] `pmo-cli` subcommands: `device list`, `model register`, `quota status`
+**Phase 2: Persistence layer** ✅
+- [x] SQLite backend for device and model registries (`rusqlite`)
+- [x] Quota persistence across restarts
+- [x] Policy hot-reload from a local file (watch via `notify`)
+- [x] `pmo-cli` subcommands: `device list`/`register`, `model list`/`register`, `quota status`/`set-limit`
 
 **Phase 3: Xcode project scaffold**
 - [ ] New SwiftUI target `pmo-macos/`, macOS 14+, App Sandbox entitlements
