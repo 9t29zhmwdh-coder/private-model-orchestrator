@@ -1,4 +1,4 @@
-# Private Model Orchestrator — Professional Repo Skeleton
+# Private Model Orchestrator: Professional Repo Skeleton
 
 **Generated:** 2026-06-16 | **Release:** v0.1.0 | **Stack:** Rust (pmo-core, pmo-cli)
 
@@ -82,7 +82,7 @@ tokio       = { version = "1", features = ["rt-multi-thread", "macros"] }
 ### `pmo-core/src/lib.rs`
 
 ```rust
-//! Private Model Orchestrator — core library.
+//! Private Model Orchestrator: core library.
 
 pub mod device;
 pub mod model;
@@ -160,23 +160,23 @@ mod tests {
 
 ---
 
-### `README.md` (EN) — see `/tmp/pmo/README.md`
+### `README.md` (EN): see `/tmp/pmo/README.md`
 
-### `README.de.md` (DE) — see `/tmp/pmo/README.de.md`
+### `README.de.md` (DE): see `/tmp/pmo/README.de.md`
 
-### `ARCHITECTURE.md` — see `/tmp/pmo/ARCHITECTURE.md`
+### `ARCHITECTURE.md`: see `/tmp/pmo/ARCHITECTURE.md`
 
-### `PRIVACY.md` — see `/tmp/pmo/PRIVACY.md`
+### `PRIVACY.md`: see `/tmp/pmo/PRIVACY.md`
 
-### `ROADMAP.md` — see `/tmp/pmo/ROADMAP.md`
+### `ROADMAP.md`: see `/tmp/pmo/ROADMAP.md`
 
-### `CONTRIBUTING.md` — see `/tmp/pmo/CONTRIBUTING.md`
+### `CONTRIBUTING.md`: see `/tmp/pmo/CONTRIBUTING.md`
 
-### `SECURITY.md` — see `/tmp/pmo/SECURITY.md`
+### `SECURITY.md`: see `/tmp/pmo/SECURITY.md`
 
-### `CHANGELOG.md` — see `/tmp/pmo/CHANGELOG.md`
+### `CHANGELOG.md`: see `/tmp/pmo/CHANGELOG.md`
 
-### `RELEASES.md` — see `/tmp/pmo/RELEASES.md`
+### `RELEASES.md`: see `/tmp/pmo/RELEASES.md`
 
 ---
 
@@ -230,7 +230,7 @@ jobs:
 
 ## Migration Checklist
 
-### Step 1 — Create GitHub repo
+### Step 1: Create GitHub repo
 
 ```bash
 gh repo create 9t29zhmwdh-coder/private-model-orchestrator \
@@ -238,7 +238,7 @@ gh repo create 9t29zhmwdh-coder/private-model-orchestrator \
   --description "Privacy-first orchestration of Foundation Models for Apple device fleets"
 ```
 
-### Step 2 — Push all files via Git Tree API (single commit)
+### Step 2: Push all files via Git Tree API (single commit)
 
 ```bash
 export PATH="/usr/bin:/opt/homebrew/bin:/usr/local/bin:$PATH"
@@ -279,7 +279,7 @@ done
 TREE_ITEMS+="]"
 ```
 
-### Step 3 — Create tree, commit, branch
+### Step 3: Create tree, commit, branch
 
 ```bash
 TREE_SHA=$(echo "{\"tree\":$TREE_ITEMS}" | \
@@ -292,33 +292,33 @@ $GH api "repos/$OWNER/$REPO/git/refs" \
   --method POST -f ref="refs/heads/main" -f sha="$COMMIT_SHA"
 ```
 
-### Step 4 — Set default branch
+### Step 4: Set default branch
 
 ```bash
 $GH api "repos/$OWNER/$REPO" --method PATCH -f default_branch="main"
 ```
 
-### Step 5 — Validate
+### Step 5: Validate
 
 ```bash
 $GH api "repos/$OWNER/$REPO/contents/SKELETON.md" --jq '.name'
 $GH api "repos/$OWNER/$REPO/contents/pmo-core/src/lib.rs" --jq '.name'
 ```
 
-### Step 6 — Run cargo check locally
+### Step 6: Run cargo check locally
 
 ```bash
 cd /tmp/pmo && cargo check --workspace && cargo test --workspace
 ```
 
-### Step 7 — Push CI workflow (requires workflows scope)
+### Step 7: Push CI workflow (requires workflows scope)
 
 ```bash
 gh auth refresh -s workflows
 # then re-push .github/workflows/ci.yml via API or git push
 ```
 
-### Step 8 — Add topics
+### Step 8: Add topics
 
 ```bash
 $GH api "repos/$OWNER/$REPO/topics" \
@@ -327,7 +327,7 @@ $GH api "repos/$OWNER/$REPO/topics" \
   -f "names[]=mdm" -f "names[]=privacy" -f "names[]=enterprise"
 ```
 
-### Step 9 — Tag initial commit
+### Step 9: Tag initial commit
 
 ```bash
 INIT_SHA=$($GH api "repos/$OWNER/$REPO/git/ref/heads/main" --jq '.object.sha')
@@ -335,14 +335,14 @@ $GH api "repos/$OWNER/$REPO/git/refs" \
   --method POST -f ref="refs/tags/v0.1.0" -f sha="$INIT_SHA"
 ```
 
-### Step 10 — Create release
+### Step 10: Create release
 
 ```bash
 $GH api "repos/$OWNER/$REPO/releases" \
   --method POST \
   -f tag_name="v0.1.0" \
-  -f name="v0.1.0 — Initial import" \
-  -f body="Initial import — earliest commit date: <EARLIEST_COMMIT_DATE>
+  -f name="v0.1.0: Initial import" \
+  -f body="Initial import (earliest commit date: <EARLIEST_COMMIT_DATE>)
 
 Privacy-first orchestration of Foundation Models for Apple device fleets.
 Device registry, model packaging, quota management, MDM policy stubs, AOT conversion reference." \
@@ -358,10 +358,10 @@ Device registry, model packaging, quota management, MDM policy stubs, AOT conver
   "repo": "private-model-orchestrator",
   "owner": "9t29zhmwdh-coder",
   "tag": "v0.1.0",
-  "name": "v0.1.0 — Initial import",
+  "name": "v0.1.0: Initial import",
   "earliest_commit_date": "<EARLIEST_COMMIT_DATE>",
   "prerelease": true,
-  "body": "Initial import — earliest commit date: <EARLIEST_COMMIT_DATE>\n\nPrivacy-first orchestration of Foundation Models for Apple device fleets.\nDevice registry, model packaging, quota management, MDM policy stubs, AOT conversion reference.",
+  "body": "Initial import (earliest commit date: <EARLIEST_COMMIT_DATE>)\n\nPrivacy-first orchestration of Foundation Models for Apple device fleets.\nDevice registry, model packaging, quota management, MDM policy stubs, AOT conversion reference.",
   "topics": ["rust", "coreml", "apple-silicon", "mdm", "privacy", "enterprise"],
   "license": "MIT",
   "stack": "Rust (pmo-core, pmo-cli)",
@@ -389,7 +389,7 @@ Device registry, model packaging, quota management, MDM policy stubs, AOT conver
 ## Test Plan
 
 - [ ] `cargo check --workspace` passes
-- [ ] `cargo test --workspace` — all 8 tests green
+- [ ] `cargo test --workspace`: all 8 tests green
 - [ ] `cargo clippy --workspace -- -D warnings` clean
 - [ ] README renders correctly on GitHub
 - [ ] CI workflow triggers on push
@@ -412,7 +412,7 @@ Device registry, model packaging, quota management, MDM policy stubs, AOT conver
 ## Testplan
 
 - [ ] `cargo check --workspace` erfolgreich
-- [ ] `cargo test --workspace` — alle 8 Tests grün
+- [ ] `cargo test --workspace`: alle 8 Tests grün
 - [ ] `cargo clippy --workspace -- -D warnings` sauber
 - [ ] README wird auf GitHub korrekt dargestellt
 - [ ] CI-Workflow wird bei Push ausgelöst
@@ -420,4 +420,4 @@ Device registry, model packaging, quota management, MDM policy stubs, AOT conver
 
 ---
 
-*private-model-orchestrator — RayStudio · Rafael Yilmaz · MIT License · 2026*
+*private-model-orchestrator, RayStudio · Rafael Yilmaz · MIT License · 2026*

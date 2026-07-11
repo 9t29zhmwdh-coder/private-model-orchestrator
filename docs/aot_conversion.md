@@ -1,4 +1,4 @@
-# AOT Conversion Reference — Private Model Orchestrator
+# AOT Conversion Reference: Private Model Orchestrator
 
 ## Overview
 
@@ -16,12 +16,12 @@ Source Model (.gguf / .safetensors / .pt)
            │
            ▼
   coremltools.convert()
-  (produces .mlpackage — interpreted, development)
+  (produces .mlpackage: interpreted, development)
            │
            ▼
   coremltools.models.MLModel.save()
   with compute_units=ComputeUnit.ALL
-  (produces .mlmodelc — AOT compiled, production)
+  (produces .mlmodelc: AOT compiled, production)
            │
            ▼
   codesign --sign "Developer ID Application: ..." model.mlmodelc
@@ -39,7 +39,7 @@ Source Model (.gguf / .safetensors / .pt)
 # Install requirements
 pip install coremltools torch
 
-# Convert (uses ALL compute units by default — ANE preferred on Apple Silicon)
+# Convert (uses ALL compute units by default: ANE preferred on Apple Silicon)
 ./scripts/convert_model.sh ./models/mistral-7b.mlpackage ./dist/
 
 # ANE-only (fastest on M-series, no GPU fallback)
@@ -50,7 +50,7 @@ pip install coremltools torch
 
 | Flag | Use case |
 |------|----------|
-| `ALL` | Default — OS selects optimal unit per layer |
+| `ALL` | Default: OS selects optimal unit per layer |
 | `CPU_AND_NE` | Maximum ANE utilisation, best perf/watt |
 | `CPU_AND_GPU` | GPU-heavy models (vision), NE unavailable |
 | `CPU_ONLY` | Debugging, compatibility testing |

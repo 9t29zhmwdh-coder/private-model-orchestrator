@@ -19,6 +19,8 @@ Deploy, version and serve on-device AI models at enterprise scale. Zero data lea
 
 ![Private Model Orchestrator](docs/screenshot.png)
 
+![pmo-macos Devices view](docs/screenshot_macos.png)
+
 ---
 
 > 🌱 New here? → [Step-by-step guide for beginners](GETTING_STARTED.md)

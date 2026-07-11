@@ -1,4 +1,4 @@
-# Contributing — Private Model Orchestrator
+# Contributing: Private Model Orchestrator
 
 ## Contributing / Mitwirken
 
@@ -33,7 +33,7 @@ Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`
 
 ## Privacy Rules
 
-- No network calls in `pmo-core` — ever
+- No network calls in `pmo-core`, ever
 - No personal device data in test fixtures
 - No MDM credentials or configuration profile payloads in source
 
@@ -41,7 +41,7 @@ Types: `feat`, `fix`, `refactor`, `docs`, `test`, `chore`
 
 - `rustfmt` default settings
 - `clippy --workspace -- -D warnings` must pass
-- No `unwrap()` in library code — use `Result` / `Option` properly
+- No `unwrap()` in library code: use `Result` / `Option` properly
 - Document public API items with `///` doc comments
 
 ## Reporting Issues

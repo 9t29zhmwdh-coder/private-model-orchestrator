@@ -1,4 +1,4 @@
-# API Reference — pmo-core
+# API Reference: pmo-core
 
 ## DeviceRegistry
 

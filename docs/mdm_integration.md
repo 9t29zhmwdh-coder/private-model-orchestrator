@@ -1,4 +1,4 @@
-# MDM Integration Guide — Private Model Orchestrator
+# MDM Integration Guide: Private Model Orchestrator
 
 ## Overview
 
@@ -45,7 +45,7 @@ PMO policy is delivered via a custom **Configuration Profile payload** (`com.ray
 ## Jamf Pro Deployment
 
 1. **Jamf Pro → Computers → Configuration Profiles → New**
-2. General: Name `PMO Policy — Engineering`, Category `AI Tools`
+2. General: Name `PMO Policy: Engineering`, Category `AI Tools`
 3. Application & Custom Settings → Upload `.plist` payload
 4. Scope: target device group (e.g. `Engineering Fleet`)
 5. Save and distribute

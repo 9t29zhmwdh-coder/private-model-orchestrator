@@ -2,7 +2,7 @@
 
 This guide is for people who have never used Rust, the terminal, or Git before. It walks you through everything step by step, so you can build and run Private Model Orchestrator (PMO) from scratch.
 
-> Note: PMO is a command-line tool. There is no graphical app window — you interact with it entirely through the terminal, and it currently supports macOS (Core ML AOT features require macOS 14+). The Windows and Linux sections below cover getting the Rust toolchain installed and the project building; running the actual on-device AI features requires macOS.
+> Note: PMO is a command-line tool. There is no graphical app window: you interact with it entirely through the terminal, and it currently supports macOS (Core ML AOT features require macOS 14+). The Windows and Linux sections below cover getting the Rust toolchain installed and the project building; running the actual on-device AI features requires macOS. There is also an early SwiftUI app, pmo-macos, see pmo-macos/README.md.
 
 ---
 
@@ -21,7 +21,7 @@ rustc --version
 cargo --version
 ```
 
-If you see version numbers (e.g. `rustc 1.78.0`), Rust is installed — skip to step 3.
+If you see version numbers (e.g. `rustc 1.78.0`), Rust is installed, so skip to step 3.
 
 If instead you see something like `rustc is not recognized as an internal or external command`, Rust is either not installed or not available on your PATH (the list of places Windows looks for programs).
 
@@ -64,18 +64,17 @@ This will download dependencies and compile the project. It can take a few minut
 
 ### What you should see
 
-PMO's CLI is a one-shot check, not a background service — it prints its version and status, initializes its internal subsystems in memory, and then exits. There's nothing to configure and no credentials or network access needed. Expect output similar to:
+PMO's CLI reads and writes a local SQLite database (`pmo.db` in the current directory by default) and exits after each command; it is not a background service. There's nothing to configure and no credentials or network access needed. Running it with no arguments prints a status summary:
 
 ```
-Private Model Orchestrator v0.1.0
-Device registry : ...
-Model registry  : ...
-Profiling       : false
+Private Model Orchestrator v0.5.0
+Database: pmo.db
+Profiling: false
 
-All subsystems initialised. This is a v0.1.0 bootstrap check; interactive subcommands (device list, model register, quota status) land in v0.2.0, see ROADMAP.md.
+Run `pmo-cli --help` to see available subcommands (device, model, quota).
 ```
 
-That's it — no files are written and nothing persists in this version.
+To actually register a device or model and check on it, see the subcommand examples in the main [README.md](README.md#quickstart).
 
 ### Troubleshooting
 
@@ -100,7 +99,7 @@ rustc --version
 cargo --version
 ```
 
-If you see version numbers, Rust is installed — skip to step 3.
+If you see version numbers, Rust is installed, so skip to step 3.
 
 If you see `command not found: rustc`, Rust isn't installed or isn't on your PATH.
 
@@ -142,16 +141,17 @@ cargo build --release
 
 ### What you should see
 
-The CLI prints its version and status, initializes its subsystems in memory, and exits — no network, no credentials, nothing written to disk:
+Running it with no arguments prints a status summary; no network access or credentials needed:
 
 ```
-Private Model Orchestrator v0.1.0
-Device registry : ...
-Model registry  : ...
-Profiling       : false
+Private Model Orchestrator v0.5.0
+Database: pmo.db
+Profiling: false
 
-All subsystems initialised. This is a v0.1.0 bootstrap check; interactive subcommands (device list, model register, quota status) land in v0.2.0, see ROADMAP.md.
+Run `pmo-cli --help` to see available subcommands (device, model, quota).
 ```
+
+To actually register a device or model and check on it, see the subcommand examples in the main [README.md](README.md#quickstart).
 
 ### Troubleshooting
 
@@ -176,7 +176,7 @@ rustc --version
 cargo --version
 ```
 
-If you see version numbers, Rust is installed — skip to step 3.
+If you see version numbers, Rust is installed, so skip to step 3.
 
 If you see `command not found: rustc`, Rust isn't installed or isn't on your PATH.
 
@@ -218,18 +218,17 @@ cargo build --release
 
 ### What you should see
 
-The CLI prints its version and status, initializes its subsystems in memory, and exits. This is also the only environment where PMO's Core ML / on-device AI features are relevant — but the basic status check works with no models, no network access, and no credentials:
+This is also the only environment where PMO's Core ML / on-device AI features and the pmo-macos SwiftUI app are relevant. Running the CLI with no arguments prints a status summary; no models, network access or credentials needed:
 
 ```
-Private Model Orchestrator v0.1.0
-Device registry : ...
-Model registry  : ...
-Profiling       : false
+Private Model Orchestrator v0.5.0
+Database: pmo.db
+Profiling: false
 
-All subsystems initialised. This is a v0.1.0 bootstrap check; interactive subcommands (device list, model register, quota status) land in v0.2.0, see ROADMAP.md.
+Run `pmo-cli --help` to see available subcommands (device, model, quota).
 ```
 
-<!-- TODO: Screenshot of the CLI output above -->
+To actually register a device or model and check on it, see the subcommand examples in the main [README.md](README.md#quickstart), or launch pmo-macos (see [pmo-macos/](pmo-macos/)) for the same data in a SwiftUI dashboard.
 
 ### Troubleshooting
 
@@ -243,4 +242,4 @@ All subsystems initialised. This is a v0.1.0 bootstrap check; interactive subcom
 
 ## Where to go next
 
-Once PMO builds and runs, see the main [README.md](README.md) for an overview of features, and [ROADMAP.md](ROADMAP.md) to see what's planned versus what's already implemented in this v0.1.0 release.
+Once PMO builds and runs, see the main [README.md](README.md) for an overview of features, and [ROADMAP.md](ROADMAP.md) to see what's planned versus what's already implemented.
