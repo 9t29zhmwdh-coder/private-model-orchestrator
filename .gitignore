@@ -1,3 +1,10 @@
 /target
 *.db
 .DS_Store
+
+# pmo-macos: SPM build output and UniFFI-generated bindings (regenerated
+# by pmo-macos/scripts/generate-bindings.sh, never hand-edited)
+/pmo-macos/.build
+/pmo-macos/Sources/CPMOCoreFFI/include/pmo_coreFFI.h
+/pmo-macos/Sources/CPMOCoreFFI/include/module.modulemap
+/pmo-macos/Sources/PMOCore/pmo_core.swift

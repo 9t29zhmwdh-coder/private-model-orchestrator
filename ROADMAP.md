@@ -28,10 +28,12 @@ backend from day one instead of being a throwaway in-memory demo.
 - [x] Policy hot-reload from a local file (watch via `notify`)
 - [x] `pmo-cli` subcommands: `device list`/`register`, `model list`/`register`, `quota status`/`set-limit`
 
-**Phase 3: Xcode project scaffold**
-- [ ] New SwiftUI target `pmo-macos/`, macOS 14+, App Sandbox entitlements
-- [ ] Embed the Rust static library and generated Swift bindings as a build phase / SPM binary target
-- [ ] App shell: sidebar navigation (Devices, Models, Quotas, Policy), dark theme matching the other RayStudio Tauri apps
+**Phase 3: Swift Package scaffold** ✅
+- [x] New SwiftUI target `pmo-macos/`, macOS 14+. Built as a Swift Package (`Package.swift`), not a hand-authored `.xcodeproj`: more scriptable, and `swift build`/`swift run` need nothing beyond the Swift toolchain already required for the UniFFI bridge. `PMOMacOS.entitlements` (App Sandbox) exists but is deliberately not applied yet, see below.
+- [x] Embed the Rust static library and generated Swift bindings as a build phase (`pmo-macos/scripts/generate-bindings.sh` + `Package.swift` linker settings), matching the `pmo-core/scripts` pattern from Phase 1
+- [x] App shell: sidebar navigation (Devices, Models, Quotas, Policy), dark theme. Verified by actually launching the built app and screenshotting the running window, not just compiling it
+
+**Known gap carried into Phase 5:** applying `com.apple.security.app-sandbox` to the raw `swift build` executable and launching it crashes with SIGTRAP (verified locally): a bare Mach-O binary with no `.app` bundle (no `Info.plist`/bundle ID) cannot establish a WindowServer connection under the sandbox. Real sandbox compliance needs proper `.app` bundling, which is what Phase 5's "Sandboxed App Container compliance" bullet is for. `scripts/build.sh` signs ad-hoc without the entitlement for now so the app actually runs.
 
 **Phase 4: Dashboard views**
 - [ ] Devices: list, add/remove, group assignment
@@ -40,9 +42,9 @@ backend from day one instead of being a throwaway in-memory demo.
 - [ ] Policy: load an MDM Configuration Profile, display gating rules
 
 **Phase 5: CI, branding, release**
-- [ ] New GitHub Actions job: `xcodebuild` for `pmo-macos`, ad-hoc signed (not notarized, matching the other desktop tools)
-- [ ] Update README.md/README.de.md: remove the "CLI-only, no GUI" callout, add a screenshot
-- [ ] Sandboxed App Container compliance
+- [x] New GitHub Actions job: builds `pmo-macos` (`swift build` via `pmo-macos/scripts/build.sh`, ad-hoc signed, not notarized, matching the other desktop tools). Landed early, alongside Phase 3, since the build script and CI job were the natural place to prove the app actually compiles in CI.
+- [ ] Update README.md/README.de.md with a real docs/screenshot.png once the dashboard views (Phase 4) have something worth screenshotting
+- [ ] Sandboxed App Container compliance: proper `.app` bundling (Info.plist, bundle ID) so `PMOMacOS.entitlements` can actually be applied without crashing on launch (see the Phase 3 gap note above)
 
 ## v0.4.0: AOT Pipeline
 

@@ -5,6 +5,19 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.1.9] - 2026-07-11
+
+### Added
+
+- Swift Integration Phase 3 (app shell): a new `pmo-macos` Swift Package with a SwiftUI app (`PMOMacOSApp`), sidebar navigation across Devices/Models/Quotas/Policy, and live UniFFI calls into pmo-core (register a device or model bundle, set a quota limit, load a policy, all through the real bridge from Phase 1). Verified by actually launching the built app and screenshotting the running window.
+- `pmo-macos/scripts/generate-bindings.sh` and `scripts/build.sh` regenerate the UniFFI Swift bindings and build+sign the app. Wired into CI as a new `pmo-macos` job on macos-latest.
+- `pmo-macos/PMOMacOS.entitlements` declares the App Sandbox entitlement for the eventual real `.app` bundle. Not applied by the current build script: a bare `swift build` executable signed with `com.apple.security.app-sandbox` crashes with SIGTRAP on launch (no bundle ID / Info.plist for the sandbox to resolve), so real enforcement is deferred to the "Sandboxed App Container compliance" work in Phase 5.
+
+### Changed
+
+- Built the app as a Swift Package rather than a hand-authored Xcode project: fully scriptable with the Swift toolchain alone, matching how the Phase 1 UniFFI bridge is already built and tested in CI.
+- README.md/README.de.md: mention the new `pmo-macos` app shell and its current limitations (session-only data, not yet an installable bundle).
+
 ## [0.1.8] - 2026-07-11
 
 ### Added

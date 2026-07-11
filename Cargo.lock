@@ -679,7 +679,7 @@ checksum = "b4596b6d070b27117e987119b4dac604f3c58cfb0b191112e24771b2faeac1a6"
 
 [[package]]
 name = "pmo-cli"
-version = "0.1.7"
+version = "0.1.9"
 dependencies = [
  "clap",
  "pmo-core",
@@ -690,7 +690,7 @@ dependencies = [
 
 [[package]]
 name = "pmo-core"
-version = "0.1.7"
+version = "0.1.9"
 dependencies = [
  "chrono",
  "notify",
