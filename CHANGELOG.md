@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.1.5] - 2026-07-11
+
+### Fixed
+
+- Corrected README hero section: only the title image and title stay centered, tagline, description and badges are now left aligned like the rest of the document
+
 ## [0.1.4] - 2026-07-10
 
 ### Fixed
