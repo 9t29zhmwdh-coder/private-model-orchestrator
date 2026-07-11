@@ -10,6 +10,7 @@ crate-type = ["lib", "cdylib", "staticlib"]
 
 [features]
 ffi = ["uniffi"]
+persistence = ["rusqlite", "notify"]
 
 [dependencies]
 serde       = { workspace = true }
@@ -18,6 +19,8 @@ thiserror   = { workspace = true }
 uuid        = { workspace = true }
 chrono      = { workspace = true }
 uniffi      = { version = "0.32", features = ["cli"], optional = true }
+rusqlite    = { workspace = true, optional = true }
+notify      = { workspace = true, optional = true }
 
 [[bin]]
 name = "uniffi-bindgen"

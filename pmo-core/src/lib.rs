@@ -12,14 +12,22 @@ pub mod device;
 pub mod ffi;
 pub mod model;
 pub mod policy;
+#[cfg(feature = "persistence")]
+pub mod policy_watch;
 pub mod profiler;
 pub mod quota;
+#[cfg(feature = "persistence")]
+pub mod storage;
 
 pub use device::{Device, DeviceGroup, DeviceRegistry};
 pub use model::{ModelBundle, ModelRegistry, ModelVariant};
 pub use policy::{MdmPolicy, PolicyEngine};
+#[cfg(feature = "persistence")]
+pub use policy_watch::{PolicyWatchError, PolicyWatcher};
 pub use profiler::{ProfilingSession, ProfilingStub};
 pub use quota::{QuotaEngine, QuotaLimit, QuotaUsage};
+#[cfg(feature = "persistence")]
+pub use storage::{Storage, StorageError};
 
 /// Top-level orchestrator configuration.
 #[derive(Debug, Clone)]

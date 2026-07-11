@@ -26,8 +26,31 @@ impl QuotaEngine {
         Self::default()
     }
 
+    /// Rebuilds a quota engine from previously persisted limits and usage.
+    pub fn from_parts(
+        limits: HashMap<Uuid, QuotaLimit>,
+        usage: HashMap<Uuid, QuotaUsage>,
+    ) -> Self {
+        Self { limits, usage }
+    }
+
     pub fn set_limit(&mut self, device_id: Uuid, limit: QuotaLimit) {
         self.limits.insert(device_id, limit);
+    }
+
+    /// Overwrites the usage counters for a device (used to restore persisted state).
+    pub fn set_usage(&mut self, device_id: Uuid, usage: QuotaUsage) {
+        self.usage.insert(device_id, usage);
+    }
+
+    /// Every limit currently configured, keyed by device ID (for persistence).
+    pub fn all_limits(&self) -> &HashMap<Uuid, QuotaLimit> {
+        &self.limits
+    }
+
+    /// Every usage counter currently tracked, keyed by device ID (for persistence).
+    pub fn all_usage(&self) -> &HashMap<Uuid, QuotaUsage> {
+        &self.usage
     }
 
     pub fn record_inference(&mut self, device_id: Uuid) {

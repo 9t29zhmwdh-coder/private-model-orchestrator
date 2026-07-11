@@ -32,6 +32,11 @@ impl ModelRegistry {
         Self::default()
     }
 
+    /// Rebuilds a registry from previously persisted bundles.
+    pub fn from_parts(bundles: Vec<ModelBundle>) -> Self {
+        Self { bundles }
+    }
+
     pub fn register(&mut self, bundle: ModelBundle) {
         self.bundles.push(bundle);
     }

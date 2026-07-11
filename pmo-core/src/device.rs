@@ -28,6 +28,11 @@ impl DeviceRegistry {
         Self::default()
     }
 
+    /// Rebuilds a registry from previously persisted devices and groups.
+    pub fn from_parts(devices: Vec<Device>, groups: Vec<DeviceGroup>) -> Self {
+        Self { devices, groups }
+    }
+
     pub fn register_device(&mut self, device: Device) {
         self.devices.push(device);
     }
