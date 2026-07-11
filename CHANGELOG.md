@@ -5,6 +5,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.1.7] - 2026-07-11
+
+### Added
+
+- Swift Integration Phase 1 (UniFFI bridge): pmo-core now exposes DeviceRegistry, ModelRegistry, QuotaEngine and PolicyEngine as thread-safe UniFFI objects behind an opt-in `ffi` cargo feature. Added `all_devices`/`all_groups`/`all_bundles` accessors needed for the future dashboard list views.
+- A `uniffi-bindgen` binary target (`cargo run -p pmo-core --features ffi --bin uniffi-bindgen`) generates the Swift bindings.
+- `scripts/test-swift-bridge.sh` builds the bridge, generates bindings and runs a Swift round-trip test (`pmo-core/tests/swift_bridge/main.swift`) that exercises all four UniFFI objects against real data. Wired into CI as a new `swift-bridge` job on macos-latest.
+
 ## [0.1.6] - 2026-07-11
 
 ### Changed

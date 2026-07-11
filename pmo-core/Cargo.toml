@@ -3,7 +3,13 @@ name        = "pmo-core"
 version.workspace     = true
 edition.workspace     = true
 license.workspace     = true
-description = "Private Model Orchestrator — core library"
+description = "Private Model Orchestrator: core library"
+
+[lib]
+crate-type = ["lib", "cdylib", "staticlib"]
+
+[features]
+ffi = ["uniffi"]
 
 [dependencies]
 serde       = { workspace = true }
@@ -11,3 +17,9 @@ serde_json  = { workspace = true }
 thiserror   = { workspace = true }
 uuid        = { workspace = true }
 chrono      = { workspace = true }
+uniffi      = { version = "0.32", features = ["cli"], optional = true }
+
+[[bin]]
+name = "uniffi-bindgen"
+path = "src/bin/uniffi-bindgen.rs"
+required-features = ["ffi"]
