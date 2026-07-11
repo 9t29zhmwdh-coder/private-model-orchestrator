@@ -68,3 +68,14 @@ All four views now share one `FfiStorage` instance (`AppModel`, injected via `@E
 - Cloud inference endpoints: PMO is strictly on-device
 - iOS / iPadOS deployment: macOS fleet only in v1
 - Model training: inference orchestration only
+
+## Dual-Licensing Readiness
+
+Assessed 2026-07-11 as a Dual-Licensing candidate (Community MIT + Commercial/Enterprise tier), and the closest to ready of any repo assessed so far in this portfolio: PMO already models real fleet concepts (device groups, per-device quotas, MDM policy gating) rather than just planning them. Not ready yet; blocked on:
+
+- [ ] No live Jamf Pro API integration yet (v1.0.0 item above): today policy is loaded from a manually-picked JSON file, not pulled from an MDM server
+- [ ] No Apple Business Manager fleet provisioning automation yet, still a documentation-only guide item
+- [ ] No audit export for compliance reporting yet (v1.0.0 item above)
+- [ ] No packaged, installable distribution yet: the macOS app cannot be sandbox-compliant until Phase 5's `.app` bundling gap is closed, so even the Community edition is not yet "finished" by this portfolio's own definition (installable, runnable) let alone the Commercial edition
+
+Once Jamf Pro integration, ABM provisioning and audit export (v1.0.0) land, revisit: candidate Enterprise-only features would be live MDM server integration, ABM fleet provisioning automation, and compliance audit export, with the core device/model/quota registries, policy engine and desktop app staying Community/MIT.

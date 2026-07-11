@@ -5,6 +5,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.5.2] - 2026-07-11
+
+### Added
+
+- Added the missing LICENSE file (MIT), matching what README and badges already claimed.
+- Documented Dual-Licensing readiness assessment in ROADMAP.md.
+
 ## [0.5.1] - 2026-07-11
 
 ### Removed
