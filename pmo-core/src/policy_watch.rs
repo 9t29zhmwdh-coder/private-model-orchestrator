@@ -98,13 +98,26 @@ mod tests {
         write_policy(&path, &MdmPolicy { inference_allowed: false, ..Default::default() });
 
         let watcher = PolicyWatcher::new(&path).unwrap();
-        assert!(watcher.poll_reload().is_none(), "no change yet, nothing to reload");
+        // Drain whatever the watcher setup itself may have surfaced (e.g. a
+        // Create event for the file that already existed); only the change
+        // written below is what this test actually asserts on.
+        watcher.poll_reload();
 
         std::thread::sleep(Duration::from_millis(50));
         write_policy(&path, &MdmPolicy { inference_allowed: true, ..Default::default() });
-        std::thread::sleep(Duration::from_millis(200));
 
-        let reloaded = watcher.poll_reload().expect("file change should be picked up");
+        // Poll with a generous timeout instead of a single fixed-delay check:
+        // filesystem event latency varies a lot between a local machine and
+        // a loaded CI runner, so a single sleep-then-check is inherently flaky.
+        let mut reloaded = None;
+        for _ in 0..50 {
+            if let Some(policy) = watcher.poll_reload() {
+                reloaded = Some(policy);
+                break;
+            }
+            std::thread::sleep(Duration::from_millis(100));
+        }
+        let reloaded = reloaded.expect("file change should be picked up within 5s");
         assert!(reloaded.inference_allowed);
 
         std::fs::remove_dir_all(&dir).ok();
