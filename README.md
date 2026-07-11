@@ -4,6 +4,8 @@
 
 # Private Model Orchestrator
 
+</div>
+
 [🇩🇪 Deutsche Version](README.de.md)
 
 **Privacy-first orchestration of Foundation Models for Apple device fleets.**
@@ -12,7 +14,6 @@ Deploy, version and serve on-device AI models at enterprise scale. Zero data lea
 
 [![CI](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions/workflows/ci.yml/badge.svg)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions) ![Apple Silicon](https://img.shields.io/badge/Apple-Silicon-000000?logo=apple&logoColor=white) ![Platform](https://img.shields.io/badge/Platform-macOS-lightgrey?logo=apple&logoColor=black) ![Rust](https://img.shields.io/badge/Rust-CE422B?logo=rust&logoColor=white) ![AI | Claude Code](https://img.shields.io/badge/AI-Claude_Code-black?logo=anthropic&logoColor=white) ![AI | Copilot](https://img.shields.io/badge/AI-Copilot-black?logo=github&logoColor=white) ![AI | Ollama](https://img.shields.io/badge/AI-Ollama-black?logo=ollama&logoColor=white)
 
-</div>
 
 > **How it runs:** PMO is a command-line tool, not a background service or GUI. `pmo-cli` runs once and exits after printing its status; there is no installer, and nothing persists yet (v0.1.0 registries are in-memory, see [ROADMAP.md](ROADMAP.md)).
 
