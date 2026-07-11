@@ -17,9 +17,7 @@ KI-Modelle auf Unternehmensebene verteilen, versionieren und bereitstellen. Date
 
 > **So läuft das:** `pmo-cli` liest und schreibt eine lokale SQLite-Datenbank (standardmässig `pmo.db`) und beendet sich nach jedem Unterbefehl; es gibt keinen Installer und keinen Hintergrunddienst. `pmo-macos` (SwiftUI, siehe [pmo-macos/](pmo-macos/)) liest und schreibt seine eigene SQLite-Datenbank im Application-Support-Verzeichnis über dieselbe UniFFI-Bridge; CLI und App sehen dieselben Daten, wenn sie auf dieselbe Datenbankdatei zeigen. Als installierbare, notarisierte App ist sie noch nicht verpackt.
 
-![Private Model Orchestrator](docs/screenshot.png)
-
-![pmo-macos Devices-Ansicht](docs/screenshot_macos.png)
+![pmo-macos](docs/screenshot.png)
 
 ---
 

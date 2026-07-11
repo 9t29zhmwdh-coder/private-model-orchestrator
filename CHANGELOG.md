@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.5.1] - 2026-07-11
+
+### Removed
+
+- Removed the CLI terminal screenshot from the README hero section; only the pmo-macos GUI screenshot remains (renamed to docs/screenshot.png), consistent with the rest of the portfolio's README style for tools with a GUI.
+
 ## [0.5.0] - 2026-07-11
 
 ### Changed (SemVer correction)

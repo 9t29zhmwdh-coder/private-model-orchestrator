@@ -17,9 +17,7 @@ Deploy, version and serve on-device AI models at enterprise scale. Zero data lea
 
 > **How it runs:** `pmo-cli` reads and writes a local SQLite database (`pmo.db` by default) and exits after each subcommand; there is no installer and no background daemon. `pmo-macos` (SwiftUI, see [pmo-macos/](pmo-macos/)) reads and writes its own SQLite database in Application Support through the same UniFFI bridge; the CLI and the app see the same data if pointed at the same database file. It is not packaged as an installable, notarized app yet.
 
-![Private Model Orchestrator](docs/screenshot.png)
-
-![pmo-macos Devices view](docs/screenshot_macos.png)
+![pmo-macos](docs/screenshot.png)
 
 ---
 
