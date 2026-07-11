@@ -1,4 +1,4 @@
-# Architecture — Private Model Orchestrator
+# Architecture: Private Model Orchestrator
 
 ## System Overview
 
@@ -37,29 +37,29 @@ PMO is structured as a Rust workspace. The core library (`pmo-core`) contains al
 ## Module Responsibilities
 
 ### `device`
-- `Device` — serial, hardware model, OS version, group membership
-- `DeviceGroup` — named fleet segment with optional model assignment
-- `DeviceRegistry` — in-memory CRUD, lookup by group
+- `Device`: serial, hardware model, OS version, group membership
+- `DeviceGroup`: named fleet segment with optional model assignment
+- `DeviceRegistry`: in-memory CRUD, lookup by group
 
 ### `model`
-- `ModelVariant` — `MlPackage` (interpreted) vs `MlModelC` (AOT compiled)
-- `ModelBundle` — versioned, checksum-verified bundle descriptor
-- `ModelRegistry` — register, look up by name / ID, filter by variant
+- `ModelVariant`: `MlPackage` (interpreted) vs `MlModelC` (AOT compiled)
+- `ModelBundle`: versioned, checksum-verified bundle descriptor
+- `ModelRegistry`: register, look up by name / ID, filter by variant
 
 ### `quota`
-- `QuotaLimit` — daily/hourly caps per device
-- `QuotaUsage` — mutable usage counters (reset on schedule)
-- `QuotaEngine` — enforce limits, record inference, expose usage
+- `QuotaLimit`: daily/hourly caps per device
+- `QuotaUsage`: mutable usage counters (reset on schedule)
+- `QuotaEngine`: enforce limits, record inference, expose usage
 
 ### `policy`
-- `MdmPolicy` — deserialized from a Configuration Profile JSON payload
-- `PolicyEngine` — load policy, gate inference / model access / profiling
+- `MdmPolicy`: deserialized from a Configuration Profile JSON payload
+- `PolicyEngine`: load policy, gate inference / model access / profiling
 
 ### `profiler`
-- `ProfilingSession` — wall-clock timer stub with start/stop/elapsed
-- `ProfilingStub` — factory that returns `None` when profiling is disabled
+- `ProfilingSession`: wall-clock timer stub with start/stop/elapsed
+- `ProfilingStub`: factory that returns `None` when profiling is disabled
 
-## Data Flow — Inference Request
+## Data Flow: Inference Request
 
 ```
 Device                    pmo-cli / pmo-macos

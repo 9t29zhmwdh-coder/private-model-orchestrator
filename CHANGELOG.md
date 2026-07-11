@@ -5,7 +5,16 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
-## [0.1.10] - 2026-07-11
+## [0.5.0] - 2026-07-11
+
+### Changed (SemVer correction)
+
+- Renumbered the four Swift Integration phases from patch bumps (v0.1.7-v0.1.10) to minor bumps (v0.2.0-v0.5.0): each phase added real new functionality, not a bugfix, so each deserved a minor version per standard SemVer (and this project's own CLAUDE.md section 3). Old tags/releases deleted and recreated at the same commits under the corrected numbers.
+- Replaced the stale hero screenshot (docs/screenshot.png), which still showed v0.1.0-era CLI output ("bootstrap check... land in v0.2.0") that stopped being true once Phase 2 shipped real subcommands.
+- Added docs/screenshot_macos.png: a real screenshot of the running pmo-macos app showing devices registered via pmo-cli, proving the CLI and the app share the same SQLite data.
+- Removed em-dashes from 10 documentation files (ARCHITECTURE.md, GETTING_STARTED.md, CONTRIBUTING.md, SKELETON.md, SECURITY.md, RELEASES.md, TEMPLATE_NOTES.md, docs/*.md) that an earlier portfolio-wide sweep didn't cover.
+- Fixed GETTING_STARTED.md's "What you should see" sections: they still showed the old v0.1.0 bootstrap-check output and claimed "nothing written to disk", both no longer true now that pmo-cli persists to SQLite.
+
 
 ### Added
 
@@ -19,7 +28,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - Discovered and worked around a Cargo feature-unification pitfall: building `pmo-cli` (`cargo build --workspace`) and `pmo-macos`'s bindings generator (`cargo build -p pmo-core --features ffi,persistence`) in sequence silently overwrite each other's shared `target/debug/libpmo_core.dylib` with different feature sets, breaking whichever binary was linked against the other's build. Documented in `pmo-macos/scripts/generate-bindings.sh`.
 
-## [0.1.9] - 2026-07-11
+## [0.4.0] - 2026-07-11
 
 ### Added
 
@@ -32,7 +41,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 - Built the app as a Swift Package rather than a hand-authored Xcode project: fully scriptable with the Swift toolchain alone, matching how the Phase 1 UniFFI bridge is already built and tested in CI.
 - README.md/README.de.md: mention the new `pmo-macos` app shell and its current limitations (session-only data, not yet an installable bundle).
 
-## [0.1.8] - 2026-07-11
+## [0.3.0] - 2026-07-11
 
 ### Added
 
@@ -44,7 +53,7 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 - README.md/README.de.md: updated the "How it runs" callout and Quickstart to reflect that pmo-cli now persists data and has real subcommands, replacing the outdated "nothing persists yet, in-memory only" wording.
 
-## [0.1.7] - 2026-07-11
+## [0.2.0] - 2026-07-11
 
 ### Added
 

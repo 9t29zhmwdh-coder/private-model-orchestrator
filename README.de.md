@@ -19,6 +19,8 @@ KI-Modelle auf Unternehmensebene verteilen, versionieren und bereitstellen. Date
 
 ![Private Model Orchestrator](docs/screenshot.png)
 
+![pmo-macos Devices-Ansicht](docs/screenshot_macos.png)
+
 ---
 
 > 🌱 Neu hier? → [Schritt-für-Schritt-Anleitung für Einsteiger](GETTING_STARTED.md)

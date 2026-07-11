@@ -1,4 +1,4 @@
-# Security Policy — Private Model Orchestrator
+# Security Policy: Private Model Orchestrator
 
 ## Supported Versions / Unterstützte Versionen
 
