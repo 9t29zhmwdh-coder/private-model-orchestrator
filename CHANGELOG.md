@@ -5,6 +5,13 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.1.6] - 2026-07-11
+
+### Changed
+
+- Detailed the v0.3.0 "Swift Integration" roadmap milestone into concrete phases (UniFFI bridge, persistence, Xcode scaffold, dashboard views, CI/branding). Persistence, previously its own v0.2.0 milestone, is now folded into v0.3.0 so pmo-macos ships with a working SQLite backend instead of losing all data on restart.
+- Removed em-dashes from ROADMAP.md headings and bullets
+
 ## [0.1.5] - 2026-07-11
 
 ### Fixed
