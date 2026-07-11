@@ -56,3 +56,13 @@ jobs:
         run: cargo clippy -p pmo-core --features ffi -- -D warnings
       - name: Build, generate bindings and run the Swift round-trip test
         run: ./scripts/test-swift-bridge.sh
+
+  pmo-macos:
+    name: pmo-macos app
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: dtolnay/rust-toolchain@stable
+      - uses: Swatinem/rust-cache@v2.9.1
+      - name: Build pmo-macos
+        run: ./pmo-macos/scripts/build.sh

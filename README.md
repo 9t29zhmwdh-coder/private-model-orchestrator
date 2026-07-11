@@ -15,7 +15,7 @@ Deploy, version and serve on-device AI models at enterprise scale. Zero data lea
 [![CI](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions/workflows/ci.yml/badge.svg)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions) ![Apple Silicon](https://img.shields.io/badge/Apple-Silicon-000000?logo=apple&logoColor=white) ![Platform](https://img.shields.io/badge/Platform-macOS-lightgrey?logo=apple&logoColor=black) ![Rust](https://img.shields.io/badge/Rust-CE422B?logo=rust&logoColor=white) ![AI | Claude Code](https://img.shields.io/badge/AI-Claude_Code-black?logo=anthropic&logoColor=white) ![AI | Copilot](https://img.shields.io/badge/AI-Copilot-black?logo=github&logoColor=white) ![AI | Ollama](https://img.shields.io/badge/AI-Ollama-black?logo=ollama&logoColor=white)
 
 
-> **How it runs:** PMO is a command-line tool, not a background service or GUI. `pmo-cli` reads and writes a local SQLite database (`pmo.db` by default) and exits after each subcommand; there is no installer and no background daemon. The Swift/macOS dashboard is on the roadmap, not shipped yet.
+> **How it runs:** `pmo-cli` reads and writes a local SQLite database (`pmo.db` by default) and exits after each subcommand; there is no installer and no background daemon. `pmo-macos` (SwiftUI, see [pmo-macos/](pmo-macos/)) is an early app shell with sidebar navigation and live UniFFI calls, but its data is session-only for now; it is not wired to the SQLite storage layer or packaged as an installable app yet.
 
 ![Private Model Orchestrator](docs/screenshot.png)
 
@@ -25,7 +25,7 @@ Deploy, version and serve on-device AI models at enterprise scale. Zero data lea
 
 ---
 
-**In practice:** today you get a tested Rust library modeling device fleets, model bundles, quotas and MDM policy hints, a SQLite-backed persistence layer, a CLI with `device`/`model`/`quota` subcommands, and a UniFFI bridge ready for a future Swift consumer. The SwiftUI dashboard app itself is on the roadmap, not shipped yet.
+**In practice:** today you get a tested Rust library modeling device fleets, model bundles, quotas and MDM policy hints, a SQLite-backed persistence layer, a CLI with `device`/`model`/`quota` subcommands, a UniFFI bridge, and an early SwiftUI app shell (`pmo-macos`). Wiring the app to persisted data and packaging it as an installable, notarized app are still on the roadmap.
 
 ## Overview
 
