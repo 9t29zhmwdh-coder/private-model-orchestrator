@@ -57,4 +57,12 @@ impl DeviceRegistry {
     pub fn devices_in_group(&self, group_id: &Uuid) -> Vec<&Device> {
         self.devices.iter().filter(|d| d.group_id.as_ref() == Some(group_id)).collect()
     }
+
+    pub fn all_devices(&self) -> &[Device] {
+        &self.devices
+    }
+
+    pub fn all_groups(&self) -> &[DeviceGroup] {
+        &self.groups
+    }
 }

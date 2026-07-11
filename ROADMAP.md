@@ -18,9 +18,9 @@ pulled forward into this milestone: a dashboard with no persistence would
 lose all data on every restart, so `pmo-macos` gets a working SQLite
 backend from day one instead of being a throwaway in-memory demo.
 
-**Phase 1: UniFFI bridge**
-- [ ] Add the `uniffi` crate to `pmo-core`, expose `DeviceRegistry`, `ModelRegistry`, `QuotaEngine` and `PolicyEngine` as UniFFI objects
-- [ ] Generate Swift bindings, verify with a minimal Swift test program that real data round-trips from Rust
+**Phase 1: UniFFI bridge** ✅
+- [x] Add the `uniffi` crate to `pmo-core`, expose `DeviceRegistry`, `ModelRegistry`, `QuotaEngine` and `PolicyEngine` as UniFFI objects
+- [x] Generate Swift bindings, verify with a minimal Swift test program that real data round-trips from Rust
 
 **Phase 2: Persistence layer**
 - [ ] SQLite backend for device and model registries (`rusqlite`)

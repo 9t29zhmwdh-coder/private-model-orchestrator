@@ -51,4 +51,8 @@ impl ModelRegistry {
     pub fn production_bundles(&self) -> Vec<&ModelBundle> {
         self.bundles.iter().filter(|b| b.variant == ModelVariant::MlModelC).collect()
     }
+
+    pub fn all_bundles(&self) -> &[ModelBundle] {
+        &self.bundles
+    }
 }

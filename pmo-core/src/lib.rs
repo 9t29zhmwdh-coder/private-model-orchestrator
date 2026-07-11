@@ -1,10 +1,15 @@
-//! Private Model Orchestrator — core library.
+//! Private Model Orchestrator: core library.
 //!
 //! Provides device registry, model packaging, quota management,
 //! MDM policy enforcement and performance profiling stubs for
 //! on-device Foundation Model deployments on Apple platforms.
 
+#[cfg(feature = "ffi")]
+uniffi::setup_scaffolding!();
+
 pub mod device;
+#[cfg(feature = "ffi")]
+pub mod ffi;
 pub mod model;
 pub mod policy;
 pub mod profiler;
