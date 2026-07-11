@@ -1,36 +1,61 @@
+import AppKit
 import SwiftUI
 import PMOCore
 
 struct PolicyView: View {
-    private let engine = FfiPolicyEngine()
-    @State private var inferenceAllowed = false
-    @State private var disableProfiling = false
-    @State private var appliedSummary = "No policy applied yet."
+    @EnvironmentObject private var appModel: AppModel
+    @State private var policy: FfiMdmPolicy?
+    @State private var loadedFrom: String?
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Policy").font(.title2).bold()
-            Text("This session's engine lives in memory only; a future update wires PolicyWatcher's file hot-reload (from pmo-core) into this view.")
+            Text("Loads an MDM-style Configuration Profile (JSON) from disk, the same format PolicyWatcher hot-reloads in pmo-core.")
                 .font(.caption)
                 .foregroundStyle(.secondary)
 
-            Toggle("Inference allowed", isOn: $inferenceAllowed)
-            Toggle("Disable profiling", isOn: $disableProfiling)
-
-            Button("Apply") {
-                engine.loadPolicy(policy: FfiMdmPolicy(
-                    inferenceAllowed: inferenceAllowed,
-                    allowedModelIds: [],
-                    minOsVersion: nil,
-                    disableProfiling: disableProfiling
-                ))
-                appliedSummary = "Current policy: inference \(engine.isInferenceAllowed() ? "allowed" : "blocked"), profiling \(engine.isProfilingAllowed() ? "allowed" : "disabled")."
+            Button("Load Configuration Profile...") {
+                pickAndLoadPolicyFile()
             }
 
-            Divider()
+            if let policy {
+                VStack(alignment: .leading, spacing: 6) {
+                    if let loadedFrom {
+                        Text("Loaded from \(loadedFrom)").font(.caption).foregroundStyle(.secondary)
+                    }
+                    Label("Inference \(policy.inferenceAllowed ? "allowed" : "blocked")", systemImage: policy.inferenceAllowed ? "checkmark.circle" : "xmark.circle")
+                    Label("Profiling \(policy.disableProfiling ? "disabled" : "allowed")", systemImage: policy.disableProfiling ? "xmark.circle" : "checkmark.circle")
+                    if let minOsVersion = policy.minOsVersion {
+                        Text("Minimum OS version: \(minOsVersion)")
+                    }
+                    if policy.allowedModelIds.isEmpty {
+                        Text("Allowed models: all registered bundles")
+                    } else {
+                        Text("Allowed models: \(policy.allowedModelIds.joined(separator: ", "))")
+                    }
+                }
+            } else {
+                Text("No Configuration Profile loaded yet.").foregroundStyle(.secondary)
+            }
 
-            Text(appliedSummary)
+            if let error = appModel.lastError {
+                Text(error).font(.caption).foregroundStyle(.red)
+            }
+
+            Spacer()
         }
         .padding()
+    }
+
+    private func pickAndLoadPolicyFile() {
+        let panel = NSOpenPanel()
+        panel.allowedContentTypes = [.json]
+        panel.allowsMultipleSelection = false
+        guard panel.runModal() == .OK, let url = panel.url else { return }
+
+        appModel.run {
+            policy = try loadPolicyFile(path: url.path)
+            loadedFrom = url.lastPathComponent
+        }
     }
 }

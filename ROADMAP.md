@@ -35,11 +35,13 @@ backend from day one instead of being a throwaway in-memory demo.
 
 **Known gap carried into Phase 5:** applying `com.apple.security.app-sandbox` to the raw `swift build` executable and launching it crashes with SIGTRAP (verified locally): a bare Mach-O binary with no `.app` bundle (no `Info.plist`/bundle ID) cannot establish a WindowServer connection under the sandbox. Real sandbox compliance needs proper `.app` bundling, which is what Phase 5's "Sandboxed App Container compliance" bullet is for. `scripts/build.sh` signs ad-hoc without the entitlement for now so the app actually runs.
 
-**Phase 4: Dashboard views**
-- [ ] Devices: list, add/remove, group assignment
-- [ ] Models: bundle list, variant/checksum display
-- [ ] Quotas: per-device usage bars, reset action
-- [ ] Policy: load an MDM Configuration Profile, display gating rules
+**Phase 4: Dashboard views** ✅
+- [x] Devices: list, add/remove, group assignment. Backed by a new `FfiStorage` UniFFI facade (`pmo-core/src/ffi_storage.rs`) that loads/mutates/saves the SQLite-backed registries per call, the same pattern `pmo-cli` already uses
+- [x] Models: bundle list, variant/checksum display
+- [x] Quotas: per-device usage bars, reset action (hourly and daily, matching `QuotaEngine::reset_hourly`/`reset_daily`)
+- [x] Policy: load an MDM Configuration Profile (JSON file picker), display gating rules (inference/profiling allowed, minimum OS version, allowed model IDs)
+
+All four views now share one `FfiStorage` instance (`AppModel`, injected via `@EnvironmentObject`) pointed at a real SQLite file in Application Support, replacing the session-only `FfiDeviceRegistry`/`FfiModelRegistry`/`FfiQuotaEngine` objects from Phase 3's demo. Those Phase 1 objects still exist and are still covered by the Swift round-trip test; `FfiStorage` is the one the app actually uses now. Added `DeviceRegistry::remove_device`/`set_device_group` to pmo-core (needed for "add/remove" and "group assignment", didn't exist before).
 
 **Phase 5: CI, branding, release**
 - [x] New GitHub Actions job: builds `pmo-macos` (`swift build` via `pmo-macos/scripts/build.sh`, ad-hoc signed, not notarized, matching the other desktop tools). Landed early, alongside Phase 3, since the build script and CI job were the natural place to prove the app actually compiles in CI.

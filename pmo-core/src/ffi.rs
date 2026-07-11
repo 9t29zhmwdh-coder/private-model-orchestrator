@@ -7,7 +7,7 @@
 use std::sync::Mutex;
 use uuid::Uuid;
 
-use crate::device::{Device, DeviceRegistry};
+use crate::device::{Device, DeviceGroup, DeviceRegistry};
 use crate::model::{ModelBundle, ModelRegistry, ModelVariant};
 use crate::policy::{MdmPolicy, PolicyEngine};
 use crate::quota::{QuotaEngine, QuotaLimit, QuotaUsage};
@@ -29,6 +29,23 @@ impl From<&Device> for FfiDevice {
             group_id: d.group_id.map(|g| g.to_string()),
             hardware_model: d.hardware_model.clone(),
             os_version: d.os_version.clone(),
+        }
+    }
+}
+
+#[derive(uniffi::Record, Clone)]
+pub struct FfiDeviceGroup {
+    pub id: String,
+    pub name: String,
+    pub model_id: Option<String>,
+}
+
+impl From<&DeviceGroup> for FfiDeviceGroup {
+    fn from(g: &DeviceGroup) -> Self {
+        Self {
+            id: g.id.to_string(),
+            name: g.name.clone(),
+            model_id: g.model_id.map(|m| m.to_string()),
         }
     }
 }
@@ -122,7 +139,7 @@ impl From<FfiMdmPolicy> for MdmPolicy {
     }
 }
 
-fn parse_uuid(s: &str) -> Option<Uuid> {
+pub(crate) fn parse_uuid(s: &str) -> Option<Uuid> {
     Uuid::parse_str(s).ok()
 }
 
@@ -182,6 +199,17 @@ impl FfiDeviceRegistry {
     pub fn devices_in_group(&self, group_id: String) -> Vec<FfiDevice> {
         let Some(id) = parse_uuid(&group_id) else { return Vec::new() };
         self.inner.lock().unwrap().devices_in_group(&id).into_iter().map(FfiDevice::from).collect()
+    }
+
+    /// Lists every device group (dashboard group picker).
+    pub fn all_groups(&self) -> Vec<FfiDeviceGroup> {
+        self.inner.lock().unwrap().all_groups().iter().map(FfiDeviceGroup::from).collect()
+    }
+
+    /// Removes a device. Returns false if the ID is unknown or malformed.
+    pub fn remove_device(&self, device_id: String) -> bool {
+        let Some(id) = parse_uuid(&device_id) else { return false };
+        self.inner.lock().unwrap().remove_device(id)
     }
 }
 

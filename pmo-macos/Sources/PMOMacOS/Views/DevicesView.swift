@@ -2,25 +2,26 @@ import SwiftUI
 import PMOCore
 
 struct DevicesView: View {
-    private let registry = FfiDeviceRegistry()
+    @EnvironmentObject private var appModel: AppModel
     @State private var devices: [FfiDevice] = []
+    @State private var groups: [FfiDeviceGroup] = []
     @State private var serial = ""
     @State private var hardwareModel = ""
     @State private var osVersion = ""
+    @State private var newGroupName = ""
 
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Devices").font(.title2).bold()
-            Text("This session's registry lives in memory only; Phase 4 wires it up to the SQLite-backed storage layer from pmo-core.")
-                .font(.caption)
-                .foregroundStyle(.secondary)
 
             HStack {
                 TextField("Serial", text: $serial)
                 TextField("Hardware model", text: $hardwareModel)
                 TextField("OS version", text: $osVersion)
                 Button("Register") {
-                    _ = registry.registerDevice(serial: serial, hardwareModel: hardwareModel, osVersion: osVersion)
+                    appModel.run {
+                        _ = try appModel.storage.registerDevice(serial: serial, hardwareModel: hardwareModel, osVersion: osVersion)
+                    }
                     serial = ""
                     hardwareModel = ""
                     osVersion = ""
@@ -29,12 +30,42 @@ struct DevicesView: View {
                 .disabled(serial.isEmpty || hardwareModel.isEmpty || osVersion.isEmpty)
             }
 
+            HStack {
+                TextField("New group name", text: $newGroupName)
+                Button("Create group") {
+                    appModel.run { _ = try appModel.storage.createGroup(name: newGroupName) }
+                    newGroupName = ""
+                    refresh()
+                }
+                .disabled(newGroupName.isEmpty)
+            }
+
             List(devices, id: \.id) { device in
-                VStack(alignment: .leading) {
-                    Text(device.serial).bold()
-                    Text("\(device.hardwareModel) · macOS \(device.osVersion)")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                HStack {
+                    VStack(alignment: .leading) {
+                        Text(device.serial).bold()
+                        Text("\(device.hardwareModel) · macOS \(device.osVersion)")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Spacer()
+
+                    Picker("Group", selection: groupBinding(for: device)) {
+                        Text("Unassigned").tag(Optional<String>.none)
+                        ForEach(groups, id: \.id) { group in
+                            Text(group.name).tag(Optional(group.id))
+                        }
+                    }
+                    .frame(width: 180)
+                    .labelsHidden()
+
+                    Button(role: .destructive) {
+                        appModel.run { _ = try appModel.storage.removeDevice(deviceId: device.id) }
+                        refresh()
+                    } label: {
+                        Image(systemName: "trash")
+                    }
                 }
             }
             .overlay {
@@ -42,12 +73,29 @@ struct DevicesView: View {
                     Text("No devices registered yet.").foregroundStyle(.secondary)
                 }
             }
+
+            if let error = appModel.lastError {
+                Text(error).font(.caption).foregroundStyle(.red)
+            }
         }
         .padding()
         .onAppear(perform: refresh)
     }
 
+    private func groupBinding(for device: FfiDevice) -> Binding<String?> {
+        Binding(
+            get: { device.groupId },
+            set: { newGroupId in
+                appModel.run { _ = try appModel.storage.setDeviceGroup(deviceId: device.id, groupId: newGroupId) }
+                refresh()
+            }
+        )
+    }
+
     private func refresh() {
-        devices = registry.allDevices()
+        appModel.run {
+            devices = try appModel.storage.allDevices()
+            groups = try appModel.storage.allGroups()
+        }
     }
 }

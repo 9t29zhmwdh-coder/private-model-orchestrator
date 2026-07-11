@@ -2,7 +2,7 @@ import SwiftUI
 import PMOCore
 
 struct ModelsView: View {
-    private let registry = FfiModelRegistry()
+    @EnvironmentObject private var appModel: AppModel
     @State private var bundles: [FfiModelBundle] = []
     @State private var name = ""
     @State private var version = ""
@@ -12,9 +12,6 @@ struct ModelsView: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             Text("Models").font(.title2).bold()
-            Text("This session's registry lives in memory only; Phase 4 wires it up to the SQLite-backed storage layer from pmo-core.")
-                .font(.caption)
-                .foregroundStyle(.secondary)
 
             HStack {
                 TextField("Name", text: $name)
@@ -25,7 +22,9 @@ struct ModelsView: View {
                 }
                 TextField("Checksum", text: $checksum)
                 Button("Register") {
-                    _ = registry.register(name: name, version: version, variant: variant, checksum: checksum, minOsVersion: nil)
+                    appModel.run {
+                        _ = try appModel.storage.registerModel(name: name, version: version, variant: variant, checksum: checksum, minOsVersion: nil)
+                    }
                     name = ""
                     version = ""
                     checksum = ""
@@ -37,7 +36,7 @@ struct ModelsView: View {
             List(bundles, id: \.id) { bundle in
                 VStack(alignment: .leading) {
                     Text("\(bundle.name) v\(bundle.version)").bold()
-                    Text("checksum \(bundle.checksum)")
+                    Text("\(String(describing: bundle.variant)) · checksum \(bundle.checksum)")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                 }
@@ -47,12 +46,16 @@ struct ModelsView: View {
                     Text("No model bundles registered yet.").foregroundStyle(.secondary)
                 }
             }
+
+            if let error = appModel.lastError {
+                Text(error).font(.caption).foregroundStyle(.red)
+            }
         }
         .padding()
         .onAppear(perform: refresh)
     }
 
     private func refresh() {
-        bundles = registry.allBundles()
+        appModel.run { bundles = try appModel.storage.allModels() }
     }
 }
