@@ -1,0 +1,35 @@
+name: Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  release:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@df4cb1c069e1874edd31b4311f1884172cec0e10 # v6
+
+      - uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
+
+      - uses: Swatinem/rust-cache@c19371144df3bb44fab255c43d04cbc2ab54d1c4 # v2.9.1
+
+      - name: Determine version
+        id: version
+        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+
+      - name: Bundle and package DMG
+        run: ./pmo-macos/scripts/bundle.sh "${{ steps.version.outputs.version }}"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "${{ github.ref_name }}" pmo-macos/dist/*.dmg \
+            --repo ${{ github.repository }} \
+            --title "Private Model Orchestrator ${{ github.ref_name }}" \
+            --notes "See CHANGELOG.md for details. Not code-signed/notarized, and not yet Sandboxed App Container compliant (see ROADMAP.md): macOS Gatekeeper will show a warning on first run (right-click → Open)."

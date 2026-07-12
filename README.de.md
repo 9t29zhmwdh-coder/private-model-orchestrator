@@ -15,9 +15,13 @@ KI-Modelle auf Unternehmensebene verteilen, versionieren und bereitstellen. Date
 [![CI](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions/workflows/ci.yml/badge.svg)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions) ![Apple Silicon](https://img.shields.io/badge/Apple-Silicon-000000?logo=apple&logoColor=white) ![Platform](https://img.shields.io/badge/Platform-macOS-lightgrey?logo=apple&logoColor=black) ![Rust](https://img.shields.io/badge/Rust-CE422B?logo=rust&logoColor=white) ![AI | Claude Code](https://img.shields.io/badge/AI-Claude_Code-black?logo=anthropic&logoColor=white) ![AI | Copilot](https://img.shields.io/badge/AI-Copilot-black?logo=github&logoColor=white) ![AI | Ollama](https://img.shields.io/badge/AI-Ollama-black?logo=ollama&logoColor=white)
 
 
-> **So läuft das:** `pmo-cli` liest und schreibt eine lokale SQLite-Datenbank (standardmässig `pmo.db`) und beendet sich nach jedem Unterbefehl; es gibt keinen Installer und keinen Hintergrunddienst. `pmo-macos` (SwiftUI, siehe [pmo-macos/](pmo-macos/)) liest und schreibt seine eigene SQLite-Datenbank im Application-Support-Verzeichnis über dieselbe UniFFI-Bridge; CLI und App sehen dieselben Daten, wenn sie auf dieselbe Datenbankdatei zeigen. Als installierbare, notarisierte App ist sie noch nicht verpackt.
+> **So läuft das:** `pmo-cli` liest und schreibt eine lokale SQLite-Datenbank (standardmässig `pmo.db`) und beendet sich nach jedem Unterbefehl; es gibt keinen Installer und keinen Hintergrunddienst. `pmo-macos` (SwiftUI, siehe [pmo-macos/](pmo-macos/)) liest und schreibt seine eigene SQLite-Datenbank im Application-Support-Verzeichnis über dieselbe UniFFI-Bridge; CLI und App sehen dieselben Daten, wenn sie auf dieselbe Datenbankdatei zeigen.
 
 ![pmo-macos](docs/screenshot.png)
+
+---
+
+> 💾 **Download:** [macOS (DMG)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/releases/latest): die verpackte `pmo-macos`-App, nicht codesigniert/notarisiert und noch nicht Sandboxed-App-Container-konform (siehe ROADMAP.md), Gatekeeper warnt beim ersten Start (Rechtsklick → Öffnen). `pmo-cli` ist nicht verpackt; aus dem Quellcode bauen, siehe Quickstart unten.
 
 ---
 
@@ -25,7 +29,7 @@ KI-Modelle auf Unternehmensebene verteilen, versionieren und bereitstellen. Date
 
 ---
 
-**In der Praxis:** Aktuell bekommst du eine getestete Rust-Bibliothek zur Modellierung von Geräteflotten, Modellbündeln, Kontingenten und MDM-Policy-Hinweisen, eine SQLite-gestützte Persistenzschicht, eine CLI mit `device`/`model`/`quota`-Unterbefehlen und eine SwiftUI-App (`pmo-macos`) mit echten Dashboard-Views (Geräte hinzufügen/entfernen, Gruppenzuweisung, Modellbündel, Kontingent-Nutzung pro Gerät mit Reset, MDM-Policy-Datei laden), alle über dieselbe SQLite-Speicherschicht via UniFFI angebunden. Die Verpackung als installierbare, notarisierte App steht noch auf der Roadmap.
+**In der Praxis:** Aktuell bekommst du eine getestete Rust-Bibliothek zur Modellierung von Geräteflotten, Modellbündeln, Kontingenten und MDM-Policy-Hinweisen, eine SQLite-gestützte Persistenzschicht, eine CLI mit `device`/`model`/`quota`-Unterbefehlen und eine SwiftUI-App (`pmo-macos`) mit echten Dashboard-Views (Geräte hinzufügen/entfernen, Gruppenzuweisung, Modellbündel, Kontingent-Nutzung pro Gerät mit Reset, MDM-Policy-Datei laden), alle über dieselbe SQLite-Speicherschicht via UniFFI angebunden. Die App ist als echtes `.app`-Bundle in einer DMG verpackt; eine notarisierte, Sandboxed-App-Container-konforme Version steht noch auf der Roadmap.
 
 ## Übersicht
 

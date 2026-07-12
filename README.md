@@ -15,9 +15,13 @@ Deploy, version and serve on-device AI models at enterprise scale. Zero data lea
 [![CI](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions/workflows/ci.yml/badge.svg)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions) ![Apple Silicon](https://img.shields.io/badge/Apple-Silicon-000000?logo=apple&logoColor=white) ![Platform](https://img.shields.io/badge/Platform-macOS-lightgrey?logo=apple&logoColor=black) ![Rust](https://img.shields.io/badge/Rust-CE422B?logo=rust&logoColor=white) ![AI | Claude Code](https://img.shields.io/badge/AI-Claude_Code-black?logo=anthropic&logoColor=white) ![AI | Copilot](https://img.shields.io/badge/AI-Copilot-black?logo=github&logoColor=white) ![AI | Ollama](https://img.shields.io/badge/AI-Ollama-black?logo=ollama&logoColor=white)
 
 
-> **How it runs:** `pmo-cli` reads and writes a local SQLite database (`pmo.db` by default) and exits after each subcommand; there is no installer and no background daemon. `pmo-macos` (SwiftUI, see [pmo-macos/](pmo-macos/)) reads and writes its own SQLite database in Application Support through the same UniFFI bridge; the CLI and the app see the same data if pointed at the same database file. It is not packaged as an installable, notarized app yet.
+> **How it runs:** `pmo-cli` reads and writes a local SQLite database (`pmo.db` by default) and exits after each subcommand; there is no installer and no background daemon. `pmo-macos` (SwiftUI, see [pmo-macos/](pmo-macos/)) reads and writes its own SQLite database in Application Support through the same UniFFI bridge; the CLI and the app see the same data if pointed at the same database file.
 
 ![pmo-macos](docs/screenshot.png)
+
+---
+
+> 💾 **Download:** [macOS (DMG)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/releases/latest): the packaged `pmo-macos` app, not code-signed/notarized and not yet Sandboxed App Container compliant (see ROADMAP.md), Gatekeeper will warn on first run (right-click → Open). `pmo-cli` is not packaged; build it from source, see Quickstart below.
 
 ---
 
@@ -25,7 +29,7 @@ Deploy, version and serve on-device AI models at enterprise scale. Zero data lea
 
 ---
 
-**In practice:** today you get a tested Rust library modeling device fleets, model bundles, quotas and MDM policy hints, a SQLite-backed persistence layer, a CLI with `device`/`model`/`quota` subcommands, and a SwiftUI app (`pmo-macos`) with real dashboard views (add/remove devices, group assignment, model bundles, per-device quota usage and reset, MDM policy file loading), all backed by the same SQLite storage layer via UniFFI. Packaging the app as an installable, notarized bundle is still on the roadmap.
+**In practice:** today you get a tested Rust library modeling device fleets, model bundles, quotas and MDM policy hints, a SQLite-backed persistence layer, a CLI with `device`/`model`/`quota` subcommands, and a SwiftUI app (`pmo-macos`) with real dashboard views (add/remove devices, group assignment, model bundles, per-device quota usage and reset, MDM policy file loading), all backed by the same SQLite storage layer via UniFFI. The app is packaged as a real `.app` bundle in a DMG; a notarized, Sandboxed App Container-compliant build is still on the roadmap.
 
 ## Overview
 
