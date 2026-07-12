@@ -5,6 +5,12 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.5.5] - 2026-07-12
+
+### Fixed
+
+- Removed em-dashes from `scripts/mdm_preflight.sh` and `scripts/convert_model.sh` (comment headers). Swiss German orthography rule: no em-dash/en-dash anywhere in the repo.
+
 ## [0.5.4] - 2026-07-12
 
 ### Added

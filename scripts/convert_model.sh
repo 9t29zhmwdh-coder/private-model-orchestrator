@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# convert_model.sh — AOT-compile a Core ML package to .mlmodelc
+# convert_model.sh: AOT-compile a Core ML package to .mlmodelc
 #
 # Usage: ./scripts/convert_model.sh <model.mlpackage> <output_dir> [compute_units]
 # compute_units: ALL (default) | CPU_AND_NE | CPU_AND_GPU | CPU_ONLY

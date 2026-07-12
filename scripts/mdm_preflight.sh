@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# mdm_preflight.sh — Verify device readiness for PMO deployment
+# mdm_preflight.sh: Verify device readiness for PMO deployment
 #
 # Run on a managed macOS device to check MDM policy preconditions.
 # Output is JSON for easy ingestion by fleet management tools.
