@@ -46,7 +46,8 @@ All four views now share one `FfiStorage` instance (`AppModel`, injected via `@E
 **Phase 5: CI, branding, release**
 - [x] New GitHub Actions job: builds `pmo-macos` (`swift build` via `pmo-macos/scripts/build.sh`, ad-hoc signed, not notarized, matching the other desktop tools). Landed early, alongside Phase 3, since the build script and CI job were the natural place to prove the app actually compiles in CI.
 - [ ] Update README.md/README.de.md with a real docs/screenshot.png once the dashboard views (Phase 4) have something worth screenshotting
-- [ ] Sandboxed App Container compliance: proper `.app` bundling (Info.plist, bundle ID) so `PMOMacOS.entitlements` can actually be applied without crashing on launch (see the Phase 3 gap note above)
+- [x] `.app` bundling for distribution: `Info.plist`, bundle ID, `libpmo_core.dylib` embedded in `Contents/Frameworks` with its load path rewritten to `@executable_path/../Frameworks` (the linked path from `swift build` is an absolute path into the build machine's `target/debug`, which would not exist on an end user's machine). Ad-hoc signed, matching `scripts/build.sh`'s existing approach; ships unsandboxed. Verified: the bundled app launches and stays running (`pmo-macos/scripts/bundle.sh`, packaged into a DMG by `.github/workflows/release.yml` on every version tag).
+- [ ] Sandboxed App Container compliance: apply `PMOMacOS.entitlements` to the now-proper `.app` bundle and verify it launches without the SIGTRAP crash documented in the Phase 3 gap note above. Not yet attempted; the bundling above intentionally still ships unsandboxed.
 
 ## v0.4.0: AOT Pipeline
 
@@ -76,6 +77,6 @@ Assessed 2026-07-11 as a Dual-Licensing candidate (Community MIT + Commercial/En
 - [ ] No live Jamf Pro API integration yet (v1.0.0 item above): today policy is loaded from a manually-picked JSON file, not pulled from an MDM server
 - [ ] No Apple Business Manager fleet provisioning automation yet, still a documentation-only guide item
 - [ ] No audit export for compliance reporting yet (v1.0.0 item above)
-- [ ] No packaged, installable distribution yet: the macOS app cannot be sandbox-compliant until Phase 5's `.app` bundling gap is closed, so even the Community edition is not yet "finished" by this portfolio's own definition (installable, runnable) let alone the Commercial edition
+- [x] Packaged, installable distribution now exists: a proper `.app` bundle in a DMG, attached to GitHub Releases (see Phase 5 above). Still unsandboxed, since Sandboxed App Container compliance remains a separate open Phase 5 item; installable/runnable by this portfolio's own definition either way
 
 Once Jamf Pro integration, ABM provisioning and audit export (v1.0.0) land, revisit: candidate Enterprise-only features would be live MDM server integration, ABM fleet provisioning automation, and compliance audit export, with the core device/model/quota registries, policy engine and desktop app staying Community/MIT.

@@ -5,6 +5,20 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [0.5.4] - 2026-07-12
+
+### Added
+
+- `pmo-macos/Info.plist` and `pmo-macos/scripts/bundle.sh`: proper `.app` bundling for `pmo-macos` (bundle ID, embedded `libpmo_core.dylib` with its load path rewritten to `@executable_path/../Frameworks` since `swift build`'s linked path is an absolute path into the build machine's `target/debug`), packaged into a DMG. Ad-hoc signed, unsandboxed (see ROADMAP.md's Sandboxed App Container item, which remains separately open).
+- Release workflow (`release.yml`) running `bundle.sh` and attaching the DMG to a GitHub Release on every `v*` tag push. Previously there was no packaged, installable distribution at all.
+- README download section (EN + DE).
+- Bundling smoke-test step in the existing `pmo-macos` CI job.
+
+### Fixed
+
+- Pinned `actions/checkout`, `dtolnay/rust-toolchain`, and `Swatinem/rust-cache` in `ci.yml` to a commit SHA instead of a mutable tag, per the portfolio's supply-chain integrity standard.
+- Refreshed `Cargo.lock`, which still listed `pmo-core`/`pmo-cli` at version 0.5.0 despite `Cargo.toml` having moved to 0.5.3.
+
 ## [0.5.3] - 2026-07-12
 
 ### Added
