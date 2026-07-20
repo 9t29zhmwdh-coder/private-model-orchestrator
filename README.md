@@ -13,6 +13,7 @@
 Deploy, version and serve on-device AI models at enterprise scale. Zero data leaves the device.
 
 [![CI](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions/workflows/ci.yml/badge.svg)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions) ![Apple Silicon](https://img.shields.io/badge/Apple-Silicon-000000?logo=apple&logoColor=white) ![Platform](https://img.shields.io/badge/Platform-macOS-lightgrey?logo=apple&logoColor=black) ![Rust](https://img.shields.io/badge/Rust-CE422B?logo=rust&logoColor=white) ![AI | Claude Code](https://img.shields.io/badge/AI-Claude_Code-black?logo=anthropic&logoColor=white) ![AI | Copilot](https://img.shields.io/badge/AI-Copilot-black?logo=github&logoColor=white) ![AI | Ollama](https://img.shields.io/badge/AI-Ollama-black?logo=ollama&logoColor=white)
+[![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/9t29zhmwdh-coder/private-model-orchestrator/badge)](https://securityscorecards.dev/viewer/?uri=github.com/9t29zhmwdh-coder/private-model-orchestrator)
 
 
 > **How it runs:** `pmo-cli` reads and writes a local SQLite database (`pmo.db` by default) and exits after each subcommand; there is no installer and no background daemon. `pmo-macos` (SwiftUI, see [pmo-macos/](pmo-macos/)) reads and writes its own SQLite database in Application Support through the same UniFFI bridge; the CLI and the app see the same data if pointed at the same database file.
