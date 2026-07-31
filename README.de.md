@@ -8,9 +8,27 @@
 
 [🇬🇧 English Version](README.md)
 
-**Privacy-first Orchestrierung von Foundation Models für Apple-Geräteflotten.**
+**Behält den Überblick, welcher Mac welche Modellversion fährt, ohne dass etwas die Geräte verlässt.**
 
-KI-Modelle auf Unternehmensebene verteilen, versionieren und bereitstellen. Daten verlassen das Gerät dabei nie.
+Ein lokales Modell auf einem Rechner zu installieren ist ein Download. Über eine
+Flotte hinweg stellen sich Fragen, die ein Download nicht beantwortet: welche
+Geräte hängen noch auf der alten Version, wer darf wie viele Inferenzaufrufe
+machen, was ist eigentlich wo ausgerollt. Das ist ein Registry-Problem, und das
+hier ist die Registry.
+
+```
+pmo-cli device list              was da draussen ist
+pmo-cli model register           ein Modell-Bundle mit Version aufnehmen
+pmo-cli quota …                  wer wie viel laufen lassen darf
+```
+
+Die Inferenz läuft auf dem Gerät über Core ML. Der Orchestrator verwaltet und
+plant, er sieht weder einen Prompt noch ein Ergebnis.
+
+**Nichts für dich, wenn** du Modelle auf deinem eigenen Rechner betreibst. Dafür
+sind Ollama oder llama.cpp da, und das hier legt eine Registry darüber, für die
+du keine Verwendung hast. Es lohnt sich ab dem Punkt, wo du nicht mehr weisst,
+was auf welchem Gerät installiert ist.
 
 [![CI](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions/workflows/ci.yml/badge.svg)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions) [![CodeQL](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/security/code-scanning) [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/9t29zhmwdh-coder/private-model-orchestrator/badge)](https://securityscorecards.dev/viewer/?uri=github.com/9t29zhmwdh-coder/private-model-orchestrator) [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/13687/badge)](https://www.bestpractices.dev/projects/13687)
 
