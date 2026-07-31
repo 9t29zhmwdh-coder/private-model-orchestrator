@@ -5,6 +5,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.0.6] - 2026-07-31
+
+### Changed
+
+- Both READMEs now open by naming the problem the orchestrator solves, which is knowing what is deployed where across a fleet, rather than the category it belongs to. The three commands that carry the tool are shown right there, and a short paragraph says who should not bother with it: anyone running a model on a single machine is better served by Ollama or llama.cpp directly.
+
+---
+
 ## [1.0.5] - 2026-07-29
 
 ### Security

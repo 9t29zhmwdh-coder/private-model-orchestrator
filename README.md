@@ -8,9 +8,26 @@
 
 [🇩🇪 Deutsche Version](README.de.md)
 
-**Privacy-first orchestration of Foundation Models for Apple device fleets.**
+**Keeps track of which Mac is running which model version, without any of it leaving the devices.**
 
-Deploy, version and serve on-device AI models at enterprise scale. Zero data leaves the device.
+Installing a local model on one machine is a download. Doing it across a fleet
+raises questions a download does not answer: which devices are on the old
+version, who is allowed how many inference calls, what is actually deployed
+where. That is a registry problem, and this is the registry.
+
+```
+pmo-cli device list              what is out there
+pmo-cli model register           add a model bundle and its version
+pmo-cli quota …                  who may run how much
+```
+
+Inference runs on the device through Core ML. The orchestrator tracks and
+schedules; it never sees a prompt or a result.
+
+**Not for you if** you are running models on your own machine. Ollama or
+llama.cpp are the answer there, and this adds a registry you have no use for.
+This starts to pay off at the point where you cannot remember what is installed
+on which device.
 
 [![CI](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions/workflows/ci.yml/badge.svg)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions) [![CodeQL](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/security/code-scanning) [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/9t29zhmwdh-coder/private-model-orchestrator/badge)](https://securityscorecards.dev/viewer/?uri=github.com/9t29zhmwdh-coder/private-model-orchestrator) [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/13687/badge)](https://www.bestpractices.dev/projects/13687)
 
