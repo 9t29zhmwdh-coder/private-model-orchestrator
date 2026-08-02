@@ -5,6 +5,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.0.8] - 2026-08-02
+
+### Changed
+
+- `notify` 6.1.1 to 8.2.0 and `thiserror` 1.0.69 to 2.0.18, merged since 1.0.7 and carried by this version. The `notify` step was checked against the defect found in LogLens, where an append arrives on Windows as `Modify(Any)` rather than `Modify(Data(..))` and a narrow filter therefore never re-reads. This project already matched on `Modify(_) | Create(_)`, so it was never affected.
+
+---
+
 ## [1.0.7] - 2026-07-31
 
 ### Fixed
