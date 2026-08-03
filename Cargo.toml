@@ -3,7 +3,7 @@ members = ["pmo-core", "pmo-cli"]
 resolver = "2"
 
 [workspace.package]
-version = "1.0.8"
+version = "1.0.9"
 edition = "2021"
 license = "MIT"
 authors = ["Rafael Yilmaz"]
@@ -16,6 +16,6 @@ thiserror   = "2"
 uuid        = { version = "1", features = ["v4", "serde"] }
 chrono      = { version = "0.4", features = ["serde"] }
 tokio       = { version = "1", features = ["rt-multi-thread", "macros"] }
-rusqlite    = { version = "0.32", features = ["bundled"] }
+rusqlite    = { version = "0.40", features = ["bundled"] }
 notify      = "8"
 clap        = { version = "4", features = ["derive"] }

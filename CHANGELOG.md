@@ -5,6 +5,14 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.0.9] - 2026-08-04
+
+### Changed
+
+- `rusqlite` 0.32 to 0.40, eight minor versions in one step. No source change was needed. The four round-trip tests that already existed carry the claim: they write a device registry and a model registry into SQLite and read them back, so a change in how values are bound or converted would show up as a failed comparison rather than a compile error. The bundled SQLite moves with it, to `libsqlite3-sys` 0.38.1.
+
+---
+
 ## [1.0.8] - 2026-08-02
 
 ### Changed
