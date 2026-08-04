@@ -5,6 +5,15 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.0.10] - 2026-08-04
+
+### Fixed
+
+- The release workflow no longer fails when the release for a tag already exists. It now attaches the files to the existing release instead of aborting with `a release with the same tag name already exists`. That failure is what left v1.0.9 published without its DMG: the build succeeded, the upload step did not, and the run went red on a release that already looked finished.
+- The workflow can be started by hand for a given tag, so a release can be rebuilt without deleting and re-pushing the tag. Checkout and the version string follow that tag rather than the default branch, so a later state cannot be packaged under an older number.
+
+---
+
 ## [1.0.9] - 2026-08-04
 
 ### Changed
