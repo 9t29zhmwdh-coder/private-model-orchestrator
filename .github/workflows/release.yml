@@ -4,6 +4,14 @@ on:
   push:
     tags:
       - 'v*'
+  # Damit ein Release nachgebaut werden kann, ohne den Tag zu loeschen und neu
+  # zu setzen. Genau das fehlte, als der Lauf zu v1.0.9 scheiterte und das DMG
+  # mit dem Runner verschwand.
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Tag, fuer den gebaut werden soll, etwa v1.0.9'
+        required: true
 
 permissions:
   contents: read
@@ -18,6 +26,11 @@ jobs:
       contents: write
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          # Bei einem Handstart muss der Tag ausgecheckt werden und nicht der
+          # Standard-Branch, sonst wuerde ein spaeterer Stand verpackt und
+          # unter einer alten Versionsnummer veroeffentlicht.
+          ref: ${{ inputs.tag || github.ref }}
 
       - uses: dtolnay/rust-toolchain@4be7066ada62dd38de10e7b70166bc74ed198c30 # stable
 
@@ -25,16 +38,31 @@ jobs:
 
       - name: Determine version
         id: version
-        run: echo "version=${GITHUB_REF_NAME#v}" >> "$GITHUB_OUTPUT"
+        env:
+          TAG: ${{ inputs.tag || github.ref_name }}
+        run: echo "version=${TAG#v}" >> "$GITHUB_OUTPUT"
 
       - name: Bundle and package DMG
         run: ./pmo-macos/scripts/bundle.sh "${{ steps.version.outputs.version }}"
 
-      - name: Create GitHub Release
+      # Legt das Release an, oder haengt die Dateien an ein bestehendes.
+      #
+      # Vorher brach der Schritt mit "a release with the same tag name already
+      # exists" ab, sobald das Release schon auf anderem Weg entstanden war.
+      # Das Ergebnis war ein Release ohne Downloads und ein roter Lauf auf
+      # main, obwohl der Build durchgelaufen war.
+      - name: Create or update the GitHub Release
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG: ${{ inputs.tag || github.ref_name }}
         run: |
-          gh release create "${{ github.ref_name }}" pmo-macos/dist/*.dmg \
-            --repo ${{ github.repository }} \
-            --title "Private Model Orchestrator ${{ github.ref_name }}" \
-            --notes "See CHANGELOG.md for details. Not code-signed/notarized, and not yet Sandboxed App Container compliant (see ROADMAP.md): macOS Gatekeeper will show a warning on first run (right-click → Open)."
+          if gh release view "$TAG" --repo "${{ github.repository }}" >/dev/null 2>&1; then
+            echo "Release $TAG existiert bereits, haenge die Dateien an."
+            gh release upload "$TAG" pmo-macos/dist/*.dmg \
+              --repo "${{ github.repository }}" --clobber
+          else
+            gh release create "$TAG" pmo-macos/dist/*.dmg \
+              --repo "${{ github.repository }}" \
+              --title "Private Model Orchestrator $TAG" \
+              --notes "See CHANGELOG.md for details. Not code-signed/notarized, and not yet Sandboxed App Container compliant (see ROADMAP.md): macOS Gatekeeper will show a warning on first run (right-click → Open)."
+          fi
