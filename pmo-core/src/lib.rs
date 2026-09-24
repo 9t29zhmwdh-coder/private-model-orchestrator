@@ -1,8 +1,8 @@
 //! Private Model Orchestrator: core library.
 //!
-//! Provides device registry, model packaging, quota management,
-//! MDM policy enforcement and performance profiling stubs for
-//! on-device Foundation Model deployments on Apple platforms.
+//! A register for a Mac fleet: devices and groups, model bundles,
+//! per-device quotas and an MDM-style policy, stored in SQLite. Entries
+//! are made by hand; nothing here contacts devices or runs models.
 
 #[cfg(feature = "ffi")]
 uniffi::setup_scaffolding!();

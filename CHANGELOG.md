@@ -5,6 +5,23 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.0.11] - 2026-09-24
+
+### Fixed
+
+- The README, the architecture document and the privacy policy described PMO as something that manages model deployments and runs inference on the devices through Core ML. It does neither: PMO is a register in SQLite that you fill in by hand with the CLI or the Mac app. All three now say that, and say what PMO does not do (find devices, push models, run or count inference, verify checksums).
+- The privacy policy said PMO processes no personal data. It stores device serial numbers, which become personal data once a device belongs to a person; the policy now says so and names who is responsible.
+- `GETTING_STARTED.md` said there is no graphical app; there is, `pmo-macos`.
+- The architecture diagram called `pmo-cli` a daemon (it runs one command and exits) and drew a connection from the tools to the device fleet that does not exist. The "inference request" data flow described a path no device ever takes and is replaced by the actual one.
+- The `AI | Ollama` badge is gone; PMO has no Ollama integration.
+
+### Removed
+
+- `scripts/convert_model.sh` and `docs/aot_conversion.md`. The script claimed to compile a `.mlpackage` ahead of time but only saved it again under a `.mlmodelc` name; compiling needs `xcrun coremlcompiler compile`. Rather than keep advertising a pipeline that did not work, both are gone.
+- `SKELETON.md` and `TEMPLATE_NOTES.md`, bookkeeping files of the scaffolding tool.
+
+---
+
 ## [1.0.10] - 2026-08-04
 
 ### Fixed

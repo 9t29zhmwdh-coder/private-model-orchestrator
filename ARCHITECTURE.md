@@ -2,7 +2,7 @@
 
 ## System Overview
 
-PMO is structured as a Rust workspace. The core library (`pmo-core`) contains all domain logic and is consumption-agnostic: it can be embedded in a CLI, a macOS SwiftUI app via UniFFI, or a headless daemon.
+PMO is a Rust workspace. The core library (`pmo-core`) holds the register (devices, groups, model bundles, quotas, policy) and its SQLite storage; the CLI uses it directly, the SwiftUI app through a UniFFI bridge. PMO does not talk to the devices it lists: every entry is made by hand.
 
 ```
 ┌─────────────────────────────────────────────────────────────────┐
@@ -18,19 +18,19 @@ PMO is structured as a Rust workspace. The core library (`pmo-core`) contains al
 │                          │  model  │                             │
 │                          └─────────┘                             │
 └─────────────────────────────────────────────────────────────────┘
-          │ in-process                │ (future) UniFFI / C-ABI
+          │ in-process                │ UniFFI bridge
           ▼                           ▼
 ┌─────────────────┐       ┌─────────────────────────┐
 │    pmo-cli      │       │  pmo-macos (SwiftUI)    │
-│  (Unix daemon)  │       │  via UniFFI bridge       │
+│ (runs and exits)│       │  via UniFFI bridge       │
 └─────────────────┘       └─────────────────────────┘
           │                           │
           └─────────────┬─────────────┘
                         ▼
        ┌────────────────────────────────┐
-       │    Apple Device Fleet          │
-       │  (MDM: Jamf / ABM)            │
-       │  Core ML · ANE · GPU          │
+       │  SQLite register               │
+       │  (pmo.db or Application        │
+       │   Support), entered by hand    │
        └────────────────────────────────┘
 ```
 
@@ -43,7 +43,7 @@ PMO is structured as a Rust workspace. The core library (`pmo-core`) contains al
 
 ### `model`
 - `ModelVariant`: `MlPackage` (interpreted) vs `MlModelC` (AOT compiled)
-- `ModelBundle`: versioned, checksum-verified bundle descriptor
+- `ModelBundle`: versioned bundle descriptor with a stored checksum (not verified against any file)
 - `ModelRegistry`: register, look up by name / ID, filter by variant
 
 ### `quota`
@@ -56,40 +56,25 @@ PMO is structured as a Rust workspace. The core library (`pmo-core`) contains al
 - `PolicyEngine`: load policy, gate inference / model access / profiling
 
 ### `profiler`
-- `ProfilingSession`: wall-clock timer stub with start/stop/elapsed
-- `ProfilingStub`: factory that returns `None` when profiling is disabled
+- `ProfilingSession`: a plain wall-clock timer with start/stop/elapsed; it does not call Core ML or Instruments
+- `ProfilingStub`: returns `None` when the policy disables profiling
 
-## Data Flow: Inference Request
+## Data Flow
 
 ```
-Device                    pmo-cli / pmo-macos
-  │                              │
-  │  inference request           │
-  │──────────────────────────────▶
-  │                              │
-  │                      PolicyEngine::is_inference_allowed()
-  │                      PolicyEngine::is_model_allowed(model_id)
-  │                              │ denied ──▶ reject
-  │                              │
-  │                      QuotaEngine::is_allowed(device_id)
-  │                              │ denied ──▶ reject
-  │                              │
-  │                      ProfilingStub::session("inference")
-  │                      [→ Core ML / ANE execution here]
-  │                      ProfilingSession::stop()
-  │                              │
-  │                      QuotaEngine::record_inference(device_id)
-  │                              │
-  │◀──────────────── result / error ─────────────────────
+you ──▶ pmo-cli  ──▶ pmo-core ──▶ pmo.db (SQLite, current directory or --db)
+you ──▶ pmo-macos ──▶ UniFFI (FfiStorage) ──▶ pmo-core ──▶ SQLite in Application Support
 ```
+
+Both write the same schema, so the CLI and the app see the same data when they
+use the same file. Nothing is sent to or received from the devices in the
+register. `PolicyEngine` and `QuotaEngine` answer "would this be allowed", for a
+program that embeds `pmo-core` and asks; PMO itself runs no inference and
+enforces nothing on a device.
 
 ## Configuration Profile Schema (MDM Integration)
 
 See `docs/mdm_integration.md` for the full Jamf-compatible payload. The `MdmPolicy` struct maps directly from a JSON payload of type `com.raystudio.pmo.policy`.
-
-## AOT Conversion Reference
-
-See `docs/aot_conversion.md` for the `coremltools`-based pipeline that produces `.mlmodelc` bundles for ANE-optimised deployment.
 
 ## External Dependencies
 
