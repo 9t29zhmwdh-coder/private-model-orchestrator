@@ -2,7 +2,7 @@
 
 This guide is for people who have never used Rust, the terminal, or Git before. It walks you through everything step by step, so you can build and run Private Model Orchestrator (PMO) from scratch.
 
-> Note: PMO is a command-line tool. There is no graphical app window: you interact with it entirely through the terminal, and it currently supports macOS (Core ML AOT features require macOS 14+). The Windows and Linux sections below cover getting the Rust toolchain installed and the project building; running the actual on-device AI features requires macOS. There is also an early SwiftUI app, pmo-macos, see pmo-macos/README.md.
+> Note: PMO comes as a command-line tool (`pmo-cli`) and a Mac app (`pmo-macos`, macOS 14+, available as a DMG on the releases page). Both record devices, model bundles and quotas that you enter; PMO does not run models or contact the devices. The Windows and Linux sections below cover building the CLI; the Mac app needs macOS.
 
 ---
 
@@ -218,7 +218,7 @@ cargo build --release
 
 ### What you should see
 
-This is also the only environment where PMO's Core ML / on-device AI features and the pmo-macos SwiftUI app are relevant. Running the CLI with no arguments prints a status summary; no models, network access or credentials needed:
+This is also the only environment where the pmo-macos SwiftUI app runs. Running the CLI with no arguments prints a status summary; no models, network access or credentials needed:
 
 ```
 Private Model Orchestrator v0.5.0
@@ -236,7 +236,7 @@ To actually register a device or model and check on it, see the subcommand examp
 |---|---|
 | `rustc`/`cargo`: command not found, even after installing | Close and reopen Terminal so it picks up the updated PATH, or run `source "$HOME/.cargo/env"` in the current session. |
 | `cargo build` fails with Xcode Command Line Tools errors | Run `xcode-select --install` to install Apple's command line developer tools, then try building again. |
-| Core ML AOT features (`.mlpackage` conversion) don't work | These require macOS 14+ as noted in the [Requirements](README.md#requirements) section. Check your macOS version via Apple menu → About This Mac. |
+| The Mac app does not open | It needs macOS 14 or later and is not notarized: right-click the app, choose Open, then confirm. |
 
 ---
 

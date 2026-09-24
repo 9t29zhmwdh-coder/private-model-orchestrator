@@ -2,8 +2,7 @@ use std::time::{Duration, Instant};
 
 /// A lightweight profiling session stub.
 ///
-/// In production, replace with real Core ML Profiler FFI calls or
-/// instruments-based measurements. See docs/aot_conversion.md.
+/// A plain wall-clock timer; it does not call Core ML or Instruments.
 #[derive(Debug)]
 pub struct ProfilingSession {
     pub label: String,

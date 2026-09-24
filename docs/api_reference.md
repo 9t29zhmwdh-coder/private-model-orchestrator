@@ -64,6 +64,8 @@ impl PolicyEngine {
 
 ## ProfilingStub
 
+A plain wall-clock timer, gated by the policy's `profiling_allowed`. It does not call Core ML or Instruments.
+
 ```rust
 pub struct ProfilingStub { ... }
 

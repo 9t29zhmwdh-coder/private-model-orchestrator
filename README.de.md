@@ -8,13 +8,13 @@
 
 [🇬🇧 English Version](README.md)
 
-**Behält den Überblick, welcher Mac welche Modellversion fährt, ohne dass etwas die Geräte verlässt.**
+**Ein Register für eine Mac-Flotte: welches Gerät, welche Modellversion, welches Inferenz-Kontingent, an einem Ort festgehalten.**
 
 Ein lokales Modell auf einem Rechner zu installieren ist ein Download. Über eine
 Flotte hinweg stellen sich Fragen, die ein Download nicht beantwortet: welche
 Geräte hängen noch auf der alten Version, wer darf wie viele Inferenzaufrufe
-machen, was ist eigentlich wo ausgerollt. Das ist ein Registry-Problem, und das
-hier ist die Registry.
+machen, was soll eigentlich wo laufen. PMO ist der Ort, an dem diese Antworten
+festgehalten werden.
 
 ```
 pmo-cli device list              was da draussen ist
@@ -22,17 +22,20 @@ pmo-cli model register           ein Modell-Bundle mit Version aufnehmen
 pmo-cli quota …                  wer wie viel laufen lassen darf
 ```
 
-Die Inferenz läuft auf dem Gerät über Core ML. Der Orchestrator verwaltet und
-plant, er sieht weder einen Prompt noch ein Ergebnis.
+Geräte, Modell-Bundles und Kontingente trägst du selbst ein, per CLI oder
+Mac-App. PMO findet keine Geräte von selbst, installiert oder verteilt keine
+Modelle und führt keine Inferenz aus: Es ist die Aufzeichnung, nicht die
+Auslieferung. Nichts verlässt den Rechner, auf dem es läuft.
 
 **Nichts für dich, wenn** du Modelle auf deinem eigenen Rechner betreibst. Dafür
 sind Ollama oder llama.cpp da, und das hier legt eine Registry darüber, für die
-du keine Verwendung hast. Es lohnt sich ab dem Punkt, wo du nicht mehr weisst,
-was auf welchem Gerät installiert ist.
+du keine Verwendung hast. Und wenn Geräte melden sollen, was sie tatsächlich
+fahren, oder Modelle verteilt werden sollen, ist das Aufgabe eines MDM wie Jamf
+oder Intune; PMO hält nur den Sollzustand fest.
 
 [![CI](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions/workflows/ci.yml/badge.svg)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions) [![CodeQL](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/actions/workflows/github-code-scanning/codeql/badge.svg)](https://github.com/9t29zhmwdh-coder/private-model-orchestrator/security/code-scanning) [![OpenSSF Scorecard](https://api.securityscorecards.dev/projects/github.com/9t29zhmwdh-coder/private-model-orchestrator/badge)](https://securityscorecards.dev/viewer/?uri=github.com/9t29zhmwdh-coder/private-model-orchestrator) [![OpenSSF Best Practices](https://www.bestpractices.dev/projects/13687/badge)](https://www.bestpractices.dev/projects/13687)
 
-![Apple Silicon](https://img.shields.io/badge/Apple-Silicon-000000?logo=apple&logoColor=white) ![Platform](https://img.shields.io/badge/Platform-macOS-lightgrey?logo=apple&logoColor=black) ![Rust](https://img.shields.io/badge/Rust-CE422B?logo=rust&logoColor=white) ![AI | Claude Code](https://img.shields.io/badge/AI-Claude_Code-black?logo=anthropic&logoColor=white) ![AI | Copilot](https://img.shields.io/badge/AI-Copilot-black?logo=github&logoColor=white) ![AI | Ollama](https://img.shields.io/badge/AI-Ollama-black?logo=ollama&logoColor=white)
+![Apple Silicon](https://img.shields.io/badge/Apple-Silicon-000000?logo=apple&logoColor=white) ![Platform](https://img.shields.io/badge/Platform-macOS-lightgrey?logo=apple&logoColor=black) ![Rust](https://img.shields.io/badge/Rust-CE422B?logo=rust&logoColor=white) ![AI | Claude Code](https://img.shields.io/badge/AI-Claude_Code-black?logo=anthropic&logoColor=white) ![AI | Copilot](https://img.shields.io/badge/AI-Copilot-black?logo=github&logoColor=white)
 
 
 > **So läuft das:** `pmo-cli` liest und schreibt eine lokale SQLite-Datenbank (standardmässig `pmo.db`) und beendet sich nach jedem Unterbefehl; es gibt keinen Installer und keinen Hintergrunddienst. `pmo-macos` (SwiftUI, siehe [pmo-macos/](pmo-macos/)) liest und schreibt seine eigene SQLite-Datenbank im Application-Support-Verzeichnis über dieselbe UniFFI-Bridge; CLI und App sehen dieselben Daten, wenn sie auf dieselbe Datenbankdatei zeigen.
@@ -53,18 +56,21 @@ was auf welchem Gerät installiert ist.
 
 ## Übersicht
 
-Private Model Orchestrator (PMO) ist ein Enterprise-Toolkit zur Verwaltung von Foundation-Model-Deployments auf Apple-Geräteflotten. Alle Inferenzen laufen vollständig auf dem Gerät via Core ML; keine Telemetrie, kein Cloud-Egress.
+Private Model Orchestrator (PMO) ist eine Rust-Bibliothek mit CLI und
+SwiftUI-Mac-App rund um eine SQLite-Datenbank. Sie hält die Geräte einer
+Mac-Flotte fest, die dafür vorgesehenen Modell-Bundles und Inferenz-Kontingente
+pro Gerät.
 
 ## Funktionen
 
-| Funktion | Beschreibung |
-|----------|--------------|
-| **AOT-Konvertierung** | Referenzpipeline für `.mlpackage` → `.mlmodelc` Ahead-of-Time-Kompilierung |
-| **Modell-Packaging** | Versionierte, prüfsummenverifizierte Modellbündel mit Variant-Tracking |
-| **Gerätegruppen** | Flottensegmentierung mit gruppenspezifischen Modellzuweisungen |
-| **Quota-Management** | Gerätebezogene stündliche/tägliche Inferenz-Kontingente mit Reset |
-| **MDM-Integration** | Configuration-Profile-Hinweise für Jamf / Apple Business Manager |
-| **Performance-Profiling** | Instrumentierte Stubs für die Integration des Core ML Profilers |
+| Funktion | Was sie tut |
+|----------|-------------|
+| **Geräteregister** | Geräte mit Seriennummer, Hardwaremodell und macOS-Version; hinzufügen, auflisten und entfernen in CLI und App |
+| **Gerätegruppen** | Gruppen anlegen und Geräte zuordnen (Mac-App); die Bibliothek kann einer Gruppe auch Modell-Bundles zuweisen |
+| **Modell-Bundles** | Name, Version, Variante (`.mlpackage` oder `.mlmodelc`) und eine von dir angegebene Prüfsumme; PMO speichert die Prüfsumme, prüft aber keine Dateien |
+| **Kontingente** | Stündliche und tägliche Limits pro Gerät, ein Nutzungszähler und manuelles Zurücksetzen in der App; Inferenzen werden nicht automatisch gezählt |
+| **Richtliniendatei** | Lädt in der App eine MDM-artige JSON-Richtlinie (minimale macOS-Version, erlaubte Modelle) und liest sie bei Änderungen neu ein |
+| **Preflight-Skript** | `scripts/mdm_preflight.sh` gibt als JSON aus, ob ein Mac per MDM verwaltet wird, seine macOS-Version und ob `coremltools` installiert ist |
 
 ## Schnellstart
 
@@ -95,7 +101,6 @@ Lösche das `target/` Build-Verzeichnis und die SQLite-Datei `pmo.db` (bzw. den 
 
 - [Architektur](ARCHITECTURE.md)
 - [MDM-Integrationshandbuch](docs/mdm_integration.md)
-- [AOT-Konvertierungsreferenz](docs/aot_conversion.md)
 - [API-Referenz](docs/api_reference.md)
 - [Roadmap](ROADMAP.md)
 - [Datenschutzrichtlinie](PRIVACY.md)
@@ -103,7 +108,7 @@ Lösche das `target/` Build-Verzeichnis und die SQLite-Datei `pmo.db` (bzw. den 
 ## Voraussetzungen
 
 - Rust 1.78+
-- macOS 14+ (für Core ML AOT-Funktionen)
+- macOS 14+ für die Mac-App
 - Jamf Pro oder Apple Business Manager (optional, für MDM-Integration)
 
 ## Sicherheit
@@ -116,4 +121,4 @@ Siehe [CONTRIBUTING.md](CONTRIBUTING.md).
 
 ---
 
-**Autor:** [Rafael Yilmaz](https://github.com/9t29zhmwdh-coder) · **Status:** Active · ![version](https://img.shields.io/github/v/release/9t29zhmwdh-coder/private-model-orchestrator?color=6b7280&style=flat-square) · **Lizenz:** MIT
+**Autor:** [Rafael Yilmaz](https://github.com/9t29zhmwdh-coder) · **Status:** Aktiv · ![version](https://img.shields.io/github/v/release/9t29zhmwdh-coder/private-model-orchestrator?color=6b7280&style=flat-square) · **Lizenz:** MIT

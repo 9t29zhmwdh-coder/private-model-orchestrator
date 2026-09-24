@@ -49,18 +49,20 @@ All four views now share one `FfiStorage` instance (`AppModel`, injected via `@E
 - [x] `.app` bundling for distribution: `Info.plist`, bundle ID, `libpmo_core.dylib` embedded in `Contents/Frameworks` with its load path rewritten to `@executable_path/../Frameworks` (the linked path from `swift build` is an absolute path into the build machine's `target/debug`, which would not exist on an end user's machine). Ad-hoc signed, matching `scripts/build.sh`'s existing approach; ships unsandboxed. Verified: the bundled app launches and stays running (`pmo-macos/scripts/bundle.sh`, packaged into a DMG by `.github/workflows/release.yml` on every version tag).
 - [ ] Sandboxed App Container compliance: apply `PMOMacOS.entitlements` to the now-proper `.app` bundle and verify it launches without the SIGTRAP crash documented in the Phase 3 gap note above. Not yet attempted; the bundling above intentionally still ships unsandboxed.
 
-## v0.4.0: AOT Pipeline
+## Ideas, not scheduled
 
-- [ ] `scripts/convert_model.sh`: production-ready `coremltools` wrapper
+These were once listed as a pipeline; none of it exists. `scripts/convert_model.sh`
+was removed in 1.0.11 because it saved a model under a `.mlmodelc` name without
+compiling it.
+
+- [ ] Verify a model file against its stored checksum
+- [ ] Devices reporting what they actually run, instead of hand entries
 - [ ] Bundle signing with Developer ID (code-sign step in CI)
-- [ ] `.mlmodelc` integrity verification at load time
-- [ ] Multi-variant bundle distribution (`.mlpackage` dev, `.mlmodelc` prod)
 
 ## v1.0.0: Enterprise GA
 
 - [ ] Full Jamf Pro integration (Configuration Profile schema published)
 - [ ] Apple Business Manager fleet provisioning guide
-- [ ] Core ML Profiler integration (replace `ProfilingStub`)
 - [ ] Audit export (JSON, CSV) for compliance reporting
 - [ ] Performance regression benchmarking in CI
 

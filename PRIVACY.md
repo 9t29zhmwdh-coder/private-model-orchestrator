@@ -2,40 +2,39 @@
 
 ## Summary / Zusammenfassung
 
-PMO processes all data locally on the device. No data ever leaves the device fleet perimeter.
+PMO keeps its register in a local SQLite file on the machine where you run it. It makes no network connections.
 
-PMO verarbeitet alle Daten lokal auf dem Gerät. Keine Daten verlassen den Perimeter der Geräteflotte.
+PMO führt sein Register in einer lokalen SQLite-Datei auf dem Rechner, auf dem du es startest. Es baut keine Netzwerkverbindungen auf.
 
 ---
 
 ## What I Collect / Was ich erfasse
 
-**Nothing.** PMO does not collect, transmit, or store any personal or organisational data outside the device.
+**Nothing.** PMO sends nothing to me or to anyone else. There is no telemetry.
 
-**Nichts.** PMO erfasst, überträgt oder speichert keine personenbezogenen oder organisationsbezogenen Daten ausserhalb des Geräts.
-
----
-
-## Data Processing / Datenverarbeitung
-
-| Aspect | Detail |
-|--------|--------|
-| Inference | Runs entirely on-device via Core ML / ANE |
-| Model bundles | Stored locally; checksum-verified at load time |
-| Device registry | In-process / local DB only |
-| Quota counters | In-process; reset on schedule |
-| Policy payload | Received via MDM Configuration Profile; parsed in RAM |
-| Profiling output | Local only; never transmitted |
-| Network | No outbound connections : not even `localhost` |
+**Nichts.** PMO schickt weder mir noch sonst jemandem etwas. Es gibt keine Telemetrie.
 
 ---
 
-## Enterprise Considerations / Enterprise-Hinweise
+## What PMO stores / Was PMO speichert
 
-- **MDM Policy:** The `MdmPolicy` struct gives administrators full control over which devices may run inference and which model IDs are allowed.
-- **Audit Logging:** No built-in audit log is transmitted. Fleet logs remain on MDM-managed devices under the operator's control.
-- **Data Residency:** All model weights and inference outputs are bound to the device. No shared storage, no cloud sync.
-- **GDPR / nDSG:** Because PMO processes no personal data, it does not act as a data processor under GDPR or the Swiss nDSG. Verify with your DPO for fleet-specific configurations.
+| Data | Where | Detail |
+|--------|--------|--------|
+| Devices | SQLite (`pmo.db` or Application Support) | Serial number, hardware model, macOS version, group, as you enter them |
+| Model bundles | same file | Name, version, variant and the checksum you enter; files are not read or checked |
+| Quotas | same file | Limits and usage counters per device; counters change only when someone records usage or resets them |
+| Policy | read from a JSON file you choose | Minimum macOS version and allowed model IDs; the app reloads it when the file changes |
+| Network | none | No outbound connections, not even `localhost` |
+
+PMO does not run models, so it never sees a prompt or an inference result.
+
+---
+
+## Personal data / Personenbezogene Daten
+
+Serial numbers identify devices. Once a device is assigned to a person, its serial number is personal data under GDPR and the Swiss nDSG. PMO does not store names, but whoever operates it and links devices to people is the controller for that data and should treat the database file accordingly (access rights, retention, deletion).
+
+Seriennummern identifizieren Geräte. Ist ein Gerät einer Person zugeordnet, ist seine Seriennummer ein Personendatum im Sinne der DSGVO und des Schweizer nDSG. PMO speichert keine Namen; wer es betreibt und Geräte Personen zuordnet, ist dafür verantwortlich und sollte die Datenbankdatei entsprechend behandeln (Zugriffsrechte, Aufbewahrung, Löschung).
 
 ---
 
@@ -43,4 +42,4 @@ PMO verarbeitet alle Daten lokal auf dem Gerät. Keine Daten verlassen den Perim
 
 Security issues: see [SECURITY.md](SECURITY.md)
 
-**Last updated: 2026-06-16**
+**Last updated: 2026-09-24**

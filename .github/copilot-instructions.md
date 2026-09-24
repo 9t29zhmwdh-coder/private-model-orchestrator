@@ -1,5 +1,5 @@
 # Copilot Instructions for Private Model Orchestrator
-Private Model Orchestrator (PMO) is an enterprise toolkit for privacy-first orchestration of Foundation Models across Apple device fleets, with all inference happening on-device via Core ML.
+Private Model Orchestrator (PMO) is a register for a Mac fleet: devices, model bundles and per-device quotas, entered by hand in a CLI or a SwiftUI app and stored in SQLite. It does not contact devices, distribute models or run inference.
 ## Code style
 - Functions stay small and single-purpose, prefer under 20 lines
 - Naming: verb+noun for functions, clear intent for variables, no x/temp/data
