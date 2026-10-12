@@ -5,6 +5,17 @@ Format: [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ---
 
+## [1.0.14] - 2026-10-12
+
+### Changed
+
+Dependency and CI updates merged since v1.0.13, each with green checks:
+
+- chore(deps): bump the cargo group with 2 updates (#57)
+- chore(ci): bump the actions group with 4 updates (#58)
+
+---
+
 ## [1.0.13] - 2026-10-11
 
 ### Fixed
